@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#53BAB0</color>
+    <color name="colorPrimaryBackground">#0D53BAB0</color>
+    <color name="colorAccent">#FFFFFF</color>
+
+    <color name="tab_base">#FFFFFF</color>
+    <color name="fontAsh">#B9CBC9</color>
+    <color name="fontAshDarker">#4E5A59</color>
+    <color name="search_bar">#33FFFFFF</color>
+    <color name="status_bar">#43948D</color>
+    <color name="ic_launcher_background">#fff</color>
+</resources>

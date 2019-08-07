@@ -1,0 +1,60 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+
+    </style>
+
+    <!--Tab elements style-->
+    <style name="home">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#AAB5C4</item>
+        <item name="android:fontFamily">@font/asap_bold</item>
+
+    </style>
+
+    <style name="current_song">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:fontFamily">@font/asap_regular</item>
+
+    </style>
+
+    <style name="song_name">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#4E5A59</item>
+        <item name="android:fontFamily">@font/asap_bold</item>
+    </style>
+
+    <style name="artist_name">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#9CAAA9</item>
+        <item name="android:fontFamily">@font/asap_regular</item>
+
+    </style>
+
+    <style name="subtitle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#B9CBC9</item>
+        <item name="android:fontFamily">@font/asap_regular</item>
+
+    </style>
+
+    <style name="NoActionBar" parent="Theme.Design.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressBackgroundTint">@color/fontAsh</item>
+        <item name="android:progressTint">@color/colorPrimary</item>
+        <item name="android:minWidth">200dp</item>
+    </style>
+
+</resources>
