@@ -1,6 +1,7 @@
 package com.sandalisw.mobileapp.viewmodels;
 
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.util.Log;
 
 import com.sandalisw.mobileapp.models.User;
@@ -16,9 +17,9 @@ public class UserViewModel extends ViewModel {
         mRepository = SongRepository.getInstance();
     }
 
-    public boolean registerUser(User user){
+    public boolean registerUser(Context context,User user){
         Log.d(TAG, "registerUser: "+user.toString());
-        return mRepository.registerUser(user);
+        return mRepository.registerUser(context,user);
     }
 
 

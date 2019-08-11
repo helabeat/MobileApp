@@ -2,7 +2,10 @@ package com.sandalisw.mobileapp.requests;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
+
 
 import com.sandalisw.mobileapp.models.Artist;
 import com.sandalisw.mobileapp.models.Song;
@@ -25,6 +28,7 @@ public class RequestApiClient {
 
     private RequestApiClient() {
         this.mSongs =new MutableLiveData<>();
+        this.mArtists = new MutableLiveData<>();
     }
 
     public static RequestApiClient getInstance(){
@@ -39,9 +43,15 @@ public class RequestApiClient {
         return mSongs;
     }
 
-    public boolean registerUser(User user){
+    public boolean registerUser(final Context context, final User user){
         Log.d(TAG, "registerUser: called");
-        registration(user);
+        registration(context,user);
+        (new Handler()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                registration(context,user);
+            }
+        }, 5000);
         Log.d(TAG, "registration: "+isRegistered);
         return isRegistered;
     }
@@ -91,7 +101,8 @@ public class RequestApiClient {
         });
     }
 
-    private void registration(User user){
+    private void registration(Context context, final User user) {
+
         Call<User> call = ServiceGenerator.getRequestApi().registerUser(user);
 
         call.enqueue(new Callback<User>() {

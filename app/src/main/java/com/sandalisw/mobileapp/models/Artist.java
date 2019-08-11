@@ -15,9 +15,9 @@ public class Artist {
 
     @SerializedName("thumbnail")
     @Expose
-    private int thumbnail;
+    private String thumbnail;
 
-    public Artist(Integer id,String artistName, int thumbnail) {
+    public Artist(Integer id,String artistName, String thumbnail) {
         this.id = id;
         this.artistName = artistName;
         this.thumbnail = thumbnail;
@@ -31,11 +31,11 @@ public class Artist {
         this.artistName = artistName;
     }
 
-    public int getThumbnail() {
+    public String getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(int thumbnail) {
+    public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
 }

@@ -1,6 +1,7 @@
 package com.sandalisw.mobileapp.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,7 +13,6 @@ import android.widget.Toast;
 
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.models.User;
-import com.sandalisw.mobileapp.viewmodels.UserViewModel;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -71,10 +71,10 @@ public class SignupActivity extends AppCompatActivity {
     public void signup() {
         Log.d(TAG, "Signup");
 
-        if (!validate()) {
-            onSignupFailed();
-            return;
-        }
+//        if (!validate()) {
+//            onSignupFailed();
+//            return;
+//        }
 
         input_signup_button.setEnabled(false);
         onSignupSuccess();
@@ -85,12 +85,13 @@ public class SignupActivity extends AppCompatActivity {
     public void onSignupSuccess() {
         input_signup_button.setEnabled(true);
 
-        UserViewModel mViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        mViewModel.registerUser(user);
 
-//        Intent nextActivity = new Intent(SignupActivity.this, PreferencesActivity.class);
-//        startActivity(nextActivity);
-//        finish();
+//        UserViewModel mViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+//        mViewModel.registerUser(this,user);
+
+        Intent nextActivity = new Intent(SignupActivity.this, PreferencesActivity.class);
+        startActivity(nextActivity);
+        finish();
     }
 
     public void onSignupFailed() {

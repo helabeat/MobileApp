@@ -41,21 +41,25 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
 
     @Override
     public void onBindViewHolder(@NonNull ArtistAdapter.ArtistViewHolder viewHolder, int i) {
+        Log.d(TAG, "Artist Thumbnail: "+mData.get(i).getThumbnail());
         viewHolder.artist_name.setText(mData.get(i).getArtistName());
         Glide.with(mContext)
                 .load(mData.get(i).getThumbnail())
                 .error(R.drawable.ic_launcher_background)
                 .into(((ArtistViewHolder)viewHolder).artist_thumbnail);
-        viewHolder.artist_thumbnail.setImageResource(mData.get(i).getThumbnail());
+        //viewHolder.artist_thumbnail.setImageResource(mData.get(i).getThumbnail());
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        if(mData != null){
+            return mData.size();
+        }
+        return 0;
     }
 
     public void setDataList(List<Artist> data){
-        Log.d(TAG, "onChanged: CALLED "+mData.size());
+        Log.d(TAG, "onChanged: CALLED "+getItemCount());
         mData = data;
         notifyDataSetChanged();
     }

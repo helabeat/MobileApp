@@ -35,13 +35,6 @@
 
     </style>
 
-    <style name="subtitle">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">#B9CBC9</item>
-        <item name="android:fontFamily">@font/asap_regular</item>
-
-    </style>
-
     <style name="NoActionBar" parent="Theme.Design.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -55,6 +48,12 @@
         <item name="android:progressBackgroundTint">@color/fontAsh</item>
         <item name="android:progressTint">@color/colorPrimary</item>
         <item name="android:minWidth">200dp</item>
+    </style>
+
+    <style name="subtitle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#B9CBC9</item>
+        <item name="android:fontFamily">@font/asap_regular</item>
     </style>
 
 </resources>

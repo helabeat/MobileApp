@@ -58,6 +58,7 @@ public class PreferencesActivity extends AppCompatActivity implements ArtistAdap
     }
 
     private void subscribeObservers(){
+        Log.d(TAG, "subscribeObservers: ");
         mViewModel.getArtists().observe(this,new Observer<List<Artist>>(){
 
             @Override
@@ -70,6 +71,6 @@ public class PreferencesActivity extends AppCompatActivity implements ArtistAdap
 
     @Override
     public void onCardClick(int position) {
-        Log.d(TAG, "onCardClick: Called");
+        Log.d(TAG, "onCardClick: Called "+position);
     }
 }

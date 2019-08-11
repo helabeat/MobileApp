@@ -1,6 +1,7 @@
 package com.sandalisw.mobileapp.repository;
 
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
 
 import com.sandalisw.mobileapp.models.Artist;
 import com.sandalisw.mobileapp.models.Song;
@@ -28,8 +29,8 @@ public class SongRepository {
         return mApiClient.getSongs();
     }
 
-    public boolean registerUser(User user){
-        return  mApiClient.registerUser(user);
+    public boolean registerUser(Context context,User user){
+        return  mApiClient.registerUser(context,user);
     }
 
     public LiveData<List<Artist>> getArtists() {

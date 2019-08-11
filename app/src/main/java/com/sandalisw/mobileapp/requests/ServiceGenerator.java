@@ -1,5 +1,6 @@
 package com.sandalisw.mobileapp.requests;
 
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -29,4 +30,7 @@ public class ServiceGenerator {
 //        }
 //        return retrofit;
 //    }
+
+    //Volley Instance
+
 }
