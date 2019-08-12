@@ -31,29 +31,27 @@
 
     <TextView
         android:id="@+id/user_preference"
-        android:layout_width="130dp"
+        android:layout_width="0dp"
+        android:layout_weight="75"
         android:layout_height="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
         android:text="Select your preferences"
         android:textAppearance="@style/subtitle" />
 
     <Button
         android:id="@+id/button_next"
-        android:layout_width="50dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="0dp"
+        android:layout_weight="25"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:text="Next >" />
-    />
   </LinearLayout>
 
   <android.support.v7.widget.RecyclerView
       android:id="@+id/preferences_recyclerview"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:clipChildren="false"
+      android:clipToPadding="false">
 
   </android.support.v7.widget.RecyclerView>
 

@@ -2,6 +2,7 @@ package com.sandalisw.mobileapp.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,7 +48,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
                 .load(mData.get(i).getThumbnail())
                 .error(R.drawable.ic_launcher_background)
                 .into(((ArtistViewHolder)viewHolder).artist_thumbnail);
-        //viewHolder.artist_thumbnail.setImageResource(mData.get(i).getThumbnail());
+
     }
 
     @Override
@@ -69,6 +70,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
         ImageView artist_thumbnail;
         TextView artist_name;
         private ArtistSelection cardListener;
+        private boolean isSelected = false;
+
 
         public ArtistViewHolder(@NonNull View itemView, ArtistSelection cardListener) {
             super(itemView);
@@ -78,16 +81,24 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
             this.cardListener = cardListener;
             itemView.setOnClickListener(this);
 
+
         }
 
         @Override
         public void onClick(View v) {
-            cardListener.onCardClick(getAdapterPosition());
+            if(isSelected){
+                isSelected = false;
+                itemView.setBackgroundResource(R.color.colorAccent);
+            }else {
+                isSelected = true;
+                itemView.setBackgroundResource(R.color.colorPrimary);
+            }
+
+            cardListener.onCardClick(getAdapterPosition(),isSelected);
         }
     }
 
     public interface ArtistSelection{
-
-        void onCardClick(int position);
+        void onCardClick(int position,boolean isSelected);
     }
 }

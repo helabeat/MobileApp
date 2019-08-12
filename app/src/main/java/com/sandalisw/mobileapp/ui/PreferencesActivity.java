@@ -2,6 +2,7 @@ package com.sandalisw.mobileapp.ui;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.sandalisw.mobileapp.adapters.ArtistAdapter;
 import com.sandalisw.mobileapp.models.Artist;
 import com.sandalisw.mobileapp.viewmodels.SongViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,7 +28,9 @@ public class PreferencesActivity extends AppCompatActivity implements ArtistAdap
     private RecyclerView recyclerView;
     private ArtistAdapter artistAdapter;
     private SongViewModel mViewModel;
+    private List<Artist> dataList;
 
+    private List<String> selectedArtists = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,10 @@ public class PreferencesActivity extends AppCompatActivity implements ArtistAdap
         final Button button = findViewById(R.id.button_next);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                //api call to send the preference list to the database
+                Intent nextActivity = new Intent(PreferencesActivity.this, MainActivity.class);
+                startActivity(nextActivity);
+                finish();
                 // Next set of preferences
                 //call subscribe again and change the dataset
             }
@@ -65,12 +73,19 @@ public class PreferencesActivity extends AppCompatActivity implements ArtistAdap
             public void onChanged(@Nullable List<Artist> mData) {
                 //this logic should be changed
                 artistAdapter.setDataList(mData);
+                dataList = mData;
             }
         });
     }
 
+
     @Override
-    public void onCardClick(int position) {
-        Log.d(TAG, "onCardClick: Called "+position);
+    public void onCardClick(int position, boolean isSelected) {
+        Log.d(TAG, "onCardClick: Called "+dataList.get(position).getArtistName());
+        if(isSelected){
+            selectedArtists.add(dataList.get(position).getArtistName());
+        }else{
+            selectedArtists.remove(dataList.get(position).getArtistName());
+        }
     }
 }
