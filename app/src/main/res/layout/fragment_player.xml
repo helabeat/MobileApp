@@ -1,6 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    
+    <ImageView
+        android:id="@+id/image_thumbnail"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:elevation="5dp"
+        />
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/current_song_details"
+        android:layout_width="360dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/image_thumbnail">
+        
+        <ImageView
+            android:id="@+id/add_to_favourite"
+            android:layout_width="20dp"
+            android:layout_height="18dp"
+            android:background="@drawable/ic_favourite"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:orientation="vertical"
+            android:textAlignment="center"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/current_song_playing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textAppearance="@style/song_name"
+                android:text="xxxxxxxxxxxxxxx" />
+            <TextView
+                android:id="@+id/current_artist_playing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/artist_name"
+                android:layout_marginStart="50dp"
+                android:text="xxxxxxxxxxx"/>
+        </LinearLayout>
+        
+        <ImageView
+            android:id="@+id/options"
+            android:layout_width="30dp"
+            android:layout_height="8dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="80dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/current_song_details"
+        android:layout_marginTop="20dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Up Next"
+            android:textAppearance="@style/subtitle"/>
+
+        //this should be implemented when dynamic playlist is added
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+        <!--</android.support.v7.widget.RecyclerView>-->
+    </LinearLayout>
+
+</RelativeLayout>

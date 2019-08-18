@@ -34,7 +34,6 @@
             android:layout_alignStart="@+id/card"
             android:layout_alignTop="@+id/card"
             android:layout_alignParentTop="true"
-
             android:elevation="1dp" />
 
 

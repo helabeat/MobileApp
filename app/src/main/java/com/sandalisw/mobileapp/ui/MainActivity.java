@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     private MediaBrowserHelper mMediaBrowserHelper;
     private MediaApplication mMediaApplication;
+    private MediaMetadataCompat metadata;
 
 
     @Override
@@ -109,15 +110,38 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
         return  mMediaApplication;
     }
 
+
     @Override
     public void onMediaSelected(MediaMetadataCompat mediaItem) {
         if(mediaItem != null){
             Log.d(TAG, "onMediaSelected: Called"+mediaItem.getDescription()+" mediaId "+mediaItem.getDescription().getMediaId());
             //mMediaBrowserHelper.subscribeToPlaylist(playlistId);
             mMediaBrowserHelper.getTransportControls().playFromMediaId(mediaItem.getDescription().getMediaId(),null);
+            setMediadata(metadata);
         }else{
             Toast.makeText(this,"Select Something to play",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void setMediadata(MediaMetadataCompat mData) {
+        metadata = mData;
+    }
+
+    @Override
+    public MediaMetadataCompat getMediadata() {
+        if(metadata != null) {
+            return metadata;
+        }
+
+        MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
+                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, "7")
+                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,"officia delectus consequatur vero aut veniam explicabo molestias")
+                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,"https://i.redd.it/glin0nwndo501.jpg")
+                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3")
+                .build();
+
+        return  mData;
     }
 
 

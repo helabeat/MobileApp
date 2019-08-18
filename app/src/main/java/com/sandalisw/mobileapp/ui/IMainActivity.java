@@ -11,4 +11,8 @@ public interface IMainActivity {
     MediaApplication getMyApplication();
 
     void onMediaSelected(MediaMetadataCompat mediaItem);
+
+    void setMediadata(MediaMetadataCompat mData);
+
+    MediaMetadataCompat getMediadata();
 }
