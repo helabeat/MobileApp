@@ -1,8 +1,8 @@
 package com.sandalisw.mobileapp.adapters;
 
 import android.content.Context;
+
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 
 import com.bumptech.glide.Glide;
 import com.sandalisw.mobileapp.R;
@@ -33,7 +34,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
     @NonNull
     @Override
     public ArtistViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-
         View view;
         LayoutInflater mInflator = LayoutInflater.from(viewGroup.getContext());
         view =  mInflator.inflate(R.layout.cardview_preference, viewGroup,false);

@@ -67,6 +67,7 @@ public class PreferencesActivity extends AppCompatActivity implements ArtistAdap
 
     private void subscribeObservers(){
         Log.d(TAG, "subscribeObservers: ");
+
         mViewModel.getArtists().observe(this,new Observer<List<Artist>>(){
 
             @Override

@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
 
     public void addtolibrary(List<Song> mediaData){
         for(Song song:mediaData){
-            Log.d(TAG, "addtolibrary: "+song.getTitle());
             MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
                     .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
                     .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,song.getTitle())

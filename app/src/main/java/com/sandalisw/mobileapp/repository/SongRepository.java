@@ -8,6 +8,7 @@ import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
 import com.sandalisw.mobileapp.requests.RequestApiClient;
 
+import java.io.IOException;
 import java.util.List;
 
 public class SongRepository {
@@ -29,11 +30,15 @@ public class SongRepository {
         return mApiClient.getSongs();
     }
 
-    public boolean registerUser(Context context,User user){
+    public LiveData<Boolean> registerUser(Context context, User user)  {
         return  mApiClient.registerUser(context,user);
     }
 
     public LiveData<List<Artist>> getArtists() {
         return mApiClient.getArtists();
+    }
+
+    public LiveData<List<Song>> searchSongs(String s) {
+        return mApiClient.searchSongs(s);
     }
 }

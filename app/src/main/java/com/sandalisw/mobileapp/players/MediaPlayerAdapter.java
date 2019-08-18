@@ -85,6 +85,7 @@ public class MediaPlayerAdapter extends PlayerAdapter {
 
     @Override
     public void playFromMedia(MediaMetadataCompat metadata) {
+        Log.d(TAG, "playFromMedia: called");
         startTrackingPlayback();
         playFile(metadata);
 

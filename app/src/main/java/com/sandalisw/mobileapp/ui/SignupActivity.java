@@ -1,8 +1,10 @@
 package com.sandalisw.mobileapp.ui;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.models.User;
+import com.sandalisw.mobileapp.viewmodels.UserViewModel;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -87,16 +90,22 @@ public class SignupActivity extends AppCompatActivity {
 
 
 //        UserViewModel mViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-//        mViewModel.registerUser(this,user);
+//        mViewModel.registerUser(this,user).observe(this, new Observer<Boolean>() {
+//            @Override
+//            public void onChanged(@Nullable Boolean aBoolean) {
+//                if(aBoolean){
+                    Intent nextActivity = new Intent(SignupActivity.this, PreferencesActivity.class);
+                    startActivity(nextActivity);
+                    finish();
+//                }
+//            }
+//        });
 
-        Intent nextActivity = new Intent(SignupActivity.this, PreferencesActivity.class);
-        startActivity(nextActivity);
-        finish();
+
     }
 
     public void onSignupFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
         input_signup_button.setEnabled(true);
     }
 

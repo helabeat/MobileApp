@@ -28,6 +28,7 @@ public class MediaApplication  extends Application {
     }
 
     public List<MediaBrowserCompat.MediaItem> getMediaItems(){
+        Log.d(TAG, "getMediaItems: "+mMediaItems.size());
         return mMediaItems;
     }
 

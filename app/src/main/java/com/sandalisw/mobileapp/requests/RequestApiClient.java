@@ -4,14 +4,22 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.os.Handler;
+import android.provider.SyncStateContract;
 import android.util.Log;
 
 
+import com.sandalisw.mobileapp.AppExecutors.AppExecutors;
 import com.sandalisw.mobileapp.models.Artist;
 import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
+import com.sandalisw.mobileapp.requests.responses.SongSearchResponse;
 
+import java.io.IOException;
+import java.net.HttpCookie;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,11 +32,14 @@ public class RequestApiClient {
     private static RequestApiClient instance;
     private MutableLiveData<List<Song>> mSongs;
     private MutableLiveData<List<Artist>> mArtists;
-    private boolean isRegistered;
+    private MutableLiveData<List<Song>> mSearchResults;
+    private MutableLiveData<Boolean> isRegistered;
 
     private RequestApiClient() {
         this.mSongs =new MutableLiveData<>();
         this.mArtists = new MutableLiveData<>();
+        this.mSearchResults = new MutableLiveData<>();
+        this.isRegistered = new MutableLiveData<>();
     }
 
     public static RequestApiClient getInstance(){
@@ -43,15 +54,9 @@ public class RequestApiClient {
         return mSongs;
     }
 
-    public boolean registerUser(final Context context, final User user){
+    public LiveData<Boolean> registerUser(final Context context, final User user){
         Log.d(TAG, "registerUser: called");
         registration(context,user);
-        (new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                registration(context,user);
-            }
-        }, 5000);
         Log.d(TAG, "registration: "+isRegistered);
         return isRegistered;
     }
@@ -60,6 +65,12 @@ public class RequestApiClient {
         Log.d(TAG, "getArtists: checked");
         artistPreference();
         return mArtists;
+    }
+
+    public LiveData<List<Song>> searchSongs(String query){
+        Log.d(TAG, "searchSongs: called");
+        getSearchedSongs(query);
+        return mSearchResults;
     }
 
     private void artistPreference() {
@@ -109,15 +120,35 @@ public class RequestApiClient {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 Log.d(TAG, "onResponse: "+response.code());
-                isRegistered = true;
+                isRegistered.setValue(true);
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 Log.d(TAG, "onFailure: "+t.getMessage());
-                isRegistered = false;
+                isRegistered.setValue(false);
             }
         });
+//        return isRegistered;
+    }
+
+    private void getSearchedSongs(String query){
+        Log.d(TAG, "searchSongs: called");
+        Call<List<Song>> call = ServiceGenerator.getRequestApi().searchSongs(query);
+
+        call.enqueue(new Callback<List<Song>>() {
+            @Override
+            public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
+                Log.d(TAG, "run: "+response.body().size());
+                mSearchResults.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Song>> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.toString());
+            }
+        });
+
 
     }
 
