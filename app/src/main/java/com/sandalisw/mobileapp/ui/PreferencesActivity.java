@@ -15,7 +15,9 @@ import android.widget.Button;
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.adapters.ArtistAdapter;
 import com.sandalisw.mobileapp.models.Artist;
+import com.sandalisw.mobileapp.models.User;
 import com.sandalisw.mobileapp.viewmodels.SongViewModel;
+import com.sandalisw.mobileapp.viewmodels.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ public class PreferencesActivity extends AppCompatActivity implements ArtistAdap
     private ArtistAdapter artistAdapter;
     private SongViewModel mViewModel;
     private List<Artist> dataList;
+    private User user;
 
     private List<String> selectedArtists = new ArrayList<>();
 
@@ -37,7 +40,6 @@ public class PreferencesActivity extends AppCompatActivity implements ArtistAdap
         Log.d(TAG, "onCreate: Check");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
-
         mViewModel = ViewModelProviders.of(this).get(SongViewModel.class);
 
         initRecyclerView();
@@ -46,8 +48,9 @@ public class PreferencesActivity extends AppCompatActivity implements ArtistAdap
         final Button button = findViewById(R.id.button_next);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //api call to send the preference list to the database
-                Intent nextActivity = new Intent(PreferencesActivity.this, MainActivity.class);
+                onNext();
+                Intent nextActivity = new Intent(PreferencesActivity.this, GenresActivity.class);
+                nextActivity.putExtra("user",user);
                 startActivity(nextActivity);
                 finish();
                 // Next set of preferences
@@ -78,6 +81,13 @@ public class PreferencesActivity extends AppCompatActivity implements ArtistAdap
             }
         });
     }
+
+    private void onNext(){
+        Intent i =getIntent();
+        user = (User)i.getSerializableExtra("user");
+        user.setArtist_preference(selectedArtists);
+    }
+
 
 
     @Override

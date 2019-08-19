@@ -1,6 +1,8 @@
 package com.sandalisw.mobileapp.requests;
 
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -20,17 +22,11 @@ public class ServiceGenerator {
         return requestApi;
     }
 
-//    public static Retrofit getRetrofitInstance(){
-//        Log.d("ServiceGenerator","init requets");
-//        if(retrofit == null){
-//            retrofit = new Retrofit.Builder()
-//                    .baseUrl(URL)
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .build();
-//        }
-//        return retrofit;
-//    }
+    public static FirebaseFirestore getFirebaseApi(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        return db;
+    }
 
-    //Volley Instance
+
 
 }

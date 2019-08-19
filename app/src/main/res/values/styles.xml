@@ -56,4 +56,10 @@
         <item name="android:fontFamily">@font/asap_regular</item>
     </style>
 
+    <style name="genres">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#4E5A59</item>
+        <item name="android:fontFamily">@font/asap_bold</item>
+    </style>
+
 </resources>

@@ -2,7 +2,10 @@ package com.sandalisw.mobileapp.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+import java.util.List;
+
+public class User implements Serializable {
 
     @SerializedName("username")
     private String username;
@@ -15,6 +18,13 @@ public class User {
 
     @SerializedName("password")
     private String password;
+
+
+    @SerializedName("artist_preference")
+    private List<String> artist_preference;
+
+    @SerializedName("genre_preference")
+    private  List<String> genre_preference;
 
     public User(String mUsername,String mEmail, String mAge, String mPassword){
         username = mUsername;
@@ -53,6 +63,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<String> getArtist_preference() {
+        return artist_preference;
+    }
+
+    public void setArtist_preference(List<String> artist_preference) {
+        this.artist_preference = artist_preference;
+    }
+
+    public List<String> getGenre_preference() {
+        return genre_preference;
+    }
+
+    public void setGenre_preference(List<String> genre_preference) {
+        this.genre_preference = genre_preference;
     }
 
     @Override

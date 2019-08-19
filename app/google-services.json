@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "271608657981",
+    "firebase_url": "https://helabeat-user-data.firebaseio.com",
+    "project_id": "helabeat-user-data",
+    "storage_bucket": "helabeat-user-data.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271608657981:android:b8a77aa1e97a3b5b",
+        "android_client_info": {
+          "package_name": "com.sandalisw.mobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271608657981-kujojno6r3jk2l72jm8t15ssh0gg4mlu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sandalisw.mobileapp",
+            "certificate_hash": "9e7ec1d2e6aa1bc8d86fa1e0cb4bff6941968812"
+          }
+        },
+        {
+          "client_id": "271608657981-dbt9tjkfc677teodtin53tkkh0m3id2m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZ3_CoSvOuzX9xB3jcYbne4trOqOBcRIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271608657981-dbt9tjkfc677teodtin53tkkh0m3id2m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

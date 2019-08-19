@@ -1,10 +1,7 @@
 package com.sandalisw.mobileapp.ui;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -74,10 +71,10 @@ public class SignupActivity extends AppCompatActivity {
     public void signup() {
         Log.d(TAG, "Signup");
 
-//        if (!validate()) {
-//            onSignupFailed();
-//            return;
-//        }
+        if (!validate()) {
+            onSignupFailed();
+            return;
+        }
 
         input_signup_button.setEnabled(false);
         onSignupSuccess();
@@ -87,19 +84,15 @@ public class SignupActivity extends AppCompatActivity {
 
     public void onSignupSuccess() {
         input_signup_button.setEnabled(true);
+        Log.d(TAG, "onSignupSuccess: "+user.toString());
+
+        Intent nextActivity = new Intent(SignupActivity.this, PreferencesActivity.class);
+        nextActivity.putExtra("user",user);
+        startActivity(nextActivity);
+        finish();
 
 
-//        UserViewModel mViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-//        mViewModel.registerUser(this,user).observe(this, new Observer<Boolean>() {
-//            @Override
-//            public void onChanged(@Nullable Boolean aBoolean) {
-//                if(aBoolean){
-                    Intent nextActivity = new Intent(SignupActivity.this, PreferencesActivity.class);
-                    startActivity(nextActivity);
-                    finish();
-//                }
-//            }
-//        });
+
 
 
     }

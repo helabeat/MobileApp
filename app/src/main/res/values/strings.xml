@@ -12,5 +12,7 @@
     <string name="broadcast_update_ui">broadcast_update_ui</string>
     <string name="broadcast_new_media_id">broadcast_new_media_id</string>
     <string name="title_activity_signup">SignupActivity</string>
+    <string name="title_activity_genres">GenresActivity</string>
+    <string name="title_activity_consent">ConsentActivity</string>
 
 </resources>

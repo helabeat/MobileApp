@@ -2,28 +2,27 @@ package com.sandalisw.mobileapp.viewmodels;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
-import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.sandalisw.mobileapp.models.User;
-import com.sandalisw.mobileapp.repository.SongRepository;
+import com.sandalisw.mobileapp.repository.UserRepository;
 
-import java.io.IOException;
-
-import static android.support.constraint.Constraints.TAG;
+import java.util.List;
 
 
 public class UserViewModel extends ViewModel {
-    private SongRepository mRepository;
+     private UserRepository mRepository;
+     private static final String TAG = "UserViewModel";
 
     public UserViewModel() {
-        mRepository = SongRepository.getInstance();
+        mRepository = UserRepository.getInstance();
+
     }
 
-    public LiveData<Boolean> registerUser(Context context, User user){
-        Log.d(TAG, "registerUser: "+user.toString());
-
-            return mRepository.registerUser(context,user);
+    public LiveData<String> registerUser(User mUser) {
+        Log.d(TAG, "registerUser: "+mUser.toString());
+        return mRepository.registerUser(mUser,mUser.getArtist_preference(),mUser.getGenre_preference());
 
     }
 
