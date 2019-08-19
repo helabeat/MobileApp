@@ -15,4 +15,7 @@
     <string name="title_activity_genres">GenresActivity</string>
     <string name="title_activity_consent">ConsentActivity</string>
 
+
+    <string name="concent_title"></string>
+
 </resources>
