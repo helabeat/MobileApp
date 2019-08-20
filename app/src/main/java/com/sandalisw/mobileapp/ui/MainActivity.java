@@ -1,9 +1,11 @@
 package com.sandalisw.mobileapp.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.media.MediaMetadataCompat;
@@ -12,14 +14,19 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.sandalisw.mobileapp.MediaApplication;
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.adapters.TabAdapter;
 import com.sandalisw.mobileapp.client.MediaBrowserHelper;
 import com.sandalisw.mobileapp.client.MediaBrowserHelperCallback;
 import com.sandalisw.mobileapp.services.MediaService;
+import com.sandalisw.mobileapp.viewmodels.SongViewModel;
 
 
 public class MainActivity extends AppCompatActivity implements IMainActivity, MediaBrowserHelperCallback {
@@ -34,13 +41,23 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     private MediaBrowserHelper mMediaBrowserHelper;
     private MediaApplication mMediaApplication;
-    private MediaMetadataCompat metadata;
+    private MediaMetadataCompat mediaMetadata;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //onetime signup check
+        SharedPreferences sp = getSharedPreferences("User_Data",MODE_PRIVATE);
+        Log.d(TAG, "onCreate: "+sp.getString("userId","0"));
+        Log.d(TAG, "onCreate: "+sp.getBoolean("loggedIn",false));
+        boolean b = sp.getBoolean("loggedIn",false);
+        if(!b){
+            Intent i = new Intent(this,ConsentActivity.class);
+            startActivity(i);
+        }
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -114,10 +131,11 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
     @Override
     public void onMediaSelected(MediaMetadataCompat mediaItem) {
         if(mediaItem != null){
+            setMediadata(mediaItem);
             Log.d(TAG, "onMediaSelected: Called"+mediaItem.getDescription()+" mediaId "+mediaItem.getDescription().getMediaId());
             //mMediaBrowserHelper.subscribeToPlaylist(playlistId);
             mMediaBrowserHelper.getTransportControls().playFromMediaId(mediaItem.getDescription().getMediaId(),null);
-            setMediadata(metadata);
+
         }else{
             Toast.makeText(this,"Select Something to play",Toast.LENGTH_SHORT).show();
         }
@@ -125,23 +143,22 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     @Override
     public void setMediadata(MediaMetadataCompat mData) {
-        metadata = mData;
+        Log.d(TAG, "setMediadata: "+mData.getDescription().getTitle());
+        mediaMetadata = mData;
     }
 
     @Override
-    public MediaMetadataCompat getMediadata() {
-        if(metadata != null) {
-            return metadata;
+    public MediaMetadataCompat getMediaData() {
+        if(mediaMetadata == null){
+            Log.d(TAG, "getMediaData: null data");
+            mediaMetadata = new MediaMetadataCompat.Builder()
+                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, "aut porro officiis laborum odit ea laudantium corporis")
+                    .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,"xxxxxxxxxx x")
+                    .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,"https://i.redd.it/obx4zydshg601.jpg")
+                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI,"https://via.placeholder.com/600/54176f" )
+                    .build();
         }
-
-        MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
-                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, "7")
-                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,"officia delectus consequatur vero aut veniam explicabo molestias")
-                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,"https://i.redd.it/glin0nwndo501.jpg")
-                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3")
-                .build();
-
-        return  mData;
+        return mediaMetadata;
     }
 
 

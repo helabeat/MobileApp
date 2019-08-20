@@ -55,14 +55,16 @@ public class GenresActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable String s) {
                 if(!s.equals("0")){
-                    Intent nextActivity = new Intent(GenresActivity.this, MainActivity.class);
-                    startActivity(nextActivity);
-                    finish();
                     sp = getSharedPreferences("User_Data",MODE_PRIVATE);
                     sp.edit().putString("userId",s).apply();
                     sp.edit().putBoolean("loggedIn",true).apply();
+                    Log.d(TAG, "onChanged: loggedin"+sp.getBoolean("loggedIn",false));
+                    Intent nextActivity = new Intent(GenresActivity.this, MainActivity.class);
+                    startActivity(nextActivity);
+                    finish();
                 }else{
                     sp.edit().putBoolean("loggedIn",false).apply();
+                    Log.d(TAG, "onChanged: "+"signup fail");
                     Toast.makeText(getBaseContext(), "SignUp failed", Toast.LENGTH_LONG).show();
                 }
             }
@@ -86,41 +88,59 @@ public class GenresActivity extends AppCompatActivity {
 
         // Check which checkbox was clicked
         switch(view.getId()) {
-            case R.id.a:
+            case R.id.classical:
                 if (checked)
-                    mSelectedGenres.add("Genre 1");
+                    mSelectedGenres.add("Classical");
                 else
-                    mSelectedGenres.remove("Genre 1");
+                    mSelectedGenres.remove("Classical");
                 break;
-            case R.id.aa:
+            case R.id.baila:
                 if (checked)
-                    mSelectedGenres.add("Genre 12");
+                    mSelectedGenres.add("Baila");
                 else
-                    mSelectedGenres.remove("Genre 1");
+                    mSelectedGenres.remove("Baila");
                 break;
-            case R.id.aaa:
+            case R.id.cultural:
                 if (checked)
-                    mSelectedGenres.add("Genre 1");
+                    mSelectedGenres.add("Cultural");
                 else
-                    mSelectedGenres.remove("Genre 1");
+                    mSelectedGenres.remove("Cultural");
                 break;
-            case R.id.aaaaa:
+            case R.id.rock:
                 if (checked)
-                    mSelectedGenres.add("Genre 1");
+                    mSelectedGenres.add("Rock");
                 else
-                    mSelectedGenres.remove("Genre 1");
+                    mSelectedGenres.remove("Rock");
                 break;
-            case R.id.aaaaaa:
+            case R.id.pop:
                 if (checked)
-                    mSelectedGenres.add("Genre 1");
+                    mSelectedGenres.add("Pop");
                 else
-                    mSelectedGenres.remove("Genre 1");
+                    mSelectedGenres.remove("Pop");
                 break;
-            case R.id.aaaaaaa:
+            case R.id.hiphop:
                 if (checked)
-                    mSelectedGenres.add("Genre 1");
+                    mSelectedGenres.add("Hiphop");
                 else
-                    mSelectedGenres.remove("Genre 1");
+                    mSelectedGenres.remove("Hiphop");
+                break;
+            case R.id.rap:
+                if (checked)
+                    mSelectedGenres.add("Rap");
+                else
+                    mSelectedGenres.remove("Rap");
+                break;
+            case R.id.symphony:
+                if (checked)
+                    mSelectedGenres.add("Symphony");
+                else
+                    mSelectedGenres.remove("Symphony");
+                break;
+            case R.id.alternative:
+                if (checked)
+                    mSelectedGenres.add("Alternative");
+                else
+                    mSelectedGenres.remove("Alternative");
                 break;
 
         }

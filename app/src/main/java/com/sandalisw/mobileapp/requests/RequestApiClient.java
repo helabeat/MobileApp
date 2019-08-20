@@ -8,18 +8,12 @@ import android.provider.SyncStateContract;
 import android.util.Log;
 
 
-import com.sandalisw.mobileapp.AppExecutors.AppExecutors;
 import com.sandalisw.mobileapp.models.Artist;
 import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
-import com.sandalisw.mobileapp.requests.responses.SongSearchResponse;
 
-import java.io.IOException;
-import java.net.HttpCookie;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;

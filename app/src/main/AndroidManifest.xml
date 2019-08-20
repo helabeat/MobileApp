@@ -16,7 +16,8 @@
         <activity
             android:name=".ui.ConsentActivity"
             android:label="@string/title_activity_consent"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar">
+        </activity>
         <activity
             android:name=".ui.GenresActivity"
             android:label="@string/title_activity_genres"
@@ -25,17 +26,17 @@
             android:name=".ui.SignupActivity"
             android:label="@string/title_activity_signup"
             android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".ui.PreferencesActivity" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.PreferencesActivity" />
-        <activity
-            android:name=".ui.MainActivity"
-            android:parentActivityName=".ui.SignupActivity"
-            android:screenOrientation="portrait" />
 
         <service android:name=".services.MediaService">
             <intent-filter>

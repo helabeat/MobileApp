@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.MediaMetadataCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sandalisw.mobileapp.R;
+import com.sandalisw.mobileapp.adapters.RecentSongAdapter;
 
-public class PlayerFragment extends Fragment {
+public class PlayerFragment extends Fragment{
+
+    private static final String TAG = "PlayerFragment";
     private IMainActivity mIMainActivity;
     private View view;
-    private Context mContext;
 
     @Nullable
     @Override
@@ -38,16 +41,20 @@ public class PlayerFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        MediaMetadataCompat mdata = mIMainActivity.getMediadata();
-
-        TextView songtitle = (TextView)view.findViewById(R.id.current_song_playing);
-        songtitle.setText(mdata.getDescription().getTitle());
+        TextView songtitle = view.findViewById(R.id.current_song_playing);
         TextView artisttitle = (TextView)view.findViewById(R.id.current_artist_playing);
-        artisttitle.setText("artist x");
         ImageView thumbnail = (ImageView)view.findViewById(R.id.image_thumbnail);
+        Log.d(TAG, "onViewCreated: getPlayer");
+
+        MediaMetadataCompat mdata = mIMainActivity.getMediaData();
+        Log.d(TAG, "onViewCreated: "+mdata.getDescription().getTitle());
+        songtitle.setText(mdata.getDescription().getTitle());
+        artisttitle.setText(mdata.getDescription().getSubtitle());
         Glide.with(getActivity())
                 .load(mdata.getDescription().getIconUri())
                 .error(R.drawable.ic_launcher_background)
-                .into(thumbnail);
+                .into((thumbnail));
+
     }
+
 }

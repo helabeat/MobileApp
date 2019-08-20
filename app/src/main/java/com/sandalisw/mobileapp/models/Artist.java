@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Artist {
 
-    @SerializedName("id")
+    @SerializedName("artist_id")
     @Expose
     private Integer id;
 
@@ -13,7 +13,7 @@ public class Artist {
     @Expose
     private String artistName;
 
-    @SerializedName("thumbnail")
+    @SerializedName("thumbnail_url")
     @Expose
     private String thumbnail;
 

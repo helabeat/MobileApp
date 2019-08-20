@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class Song {
 
-    @SerializedName("id")
+    @SerializedName("song_id")
     private int id;
-    @SerializedName("title")
+    @SerializedName("song_name")
     private String title;
-    @SerializedName("artist")
+    @SerializedName("artist_id")
     private String artist;
-    @SerializedName("thumbnailUrl")
+    @SerializedName("thumbnail_url")
     private String thumbnailUrl;
-    @SerializedName("url")
+    @SerializedName("song_url")
     private String song_url;
 
     public Song(int id, String title, String artist, String thumbnailUrl, String song_url) {

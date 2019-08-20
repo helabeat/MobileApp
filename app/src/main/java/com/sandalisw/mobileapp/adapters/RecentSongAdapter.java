@@ -43,7 +43,7 @@ public class RecentSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 .error(R.drawable.ic_launcher_background)
                 .into(((RecentSongViewHolder)viewHolder).thumbnail);
         ((RecentSongViewHolder)viewHolder).song_title.setText(dataList.get(i).getTitle());
-        ((RecentSongViewHolder)viewHolder).artist_title.setText("dataList.get(i).getArtist()");
+        ((RecentSongViewHolder)viewHolder).artist_title.setText(dataList.get(i).getArtist());
     }
 
     public void setDataList(List<Song> mData){

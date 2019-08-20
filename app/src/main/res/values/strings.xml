@@ -16,6 +16,12 @@
     <string name="title_activity_consent">ConsentActivity</string>
 
 
-    <string name="concent_title"></string>
+    <string name="concent_title">Terms of Service and Usage</string>
+    <string name="concent_content">
+        We collect and store the personal identification information that you voluntarily provide including your music preferences
+        inorder to use them as user studies for this project.We may correspond with you via email in connection to get feedback
+        on usability.
+    </string>
+    <string name="agreement">I agree to the terms and conditions</string>
 
 </resources>

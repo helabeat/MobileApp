@@ -4,7 +4,6 @@ package com.sandalisw.mobileapp.requests;
 import com.sandalisw.mobileapp.models.Artist;
 import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
-import com.sandalisw.mobileapp.requests.responses.SongSearchResponse;
 
 import java.util.List;
 
@@ -17,7 +16,7 @@ import retrofit2.http.Query;
 
 public interface RequestApi {
 
-    @GET("/songs")
+    @GET("/songs/topsongs")
     Call<List<Song>> getAllSongs();
 
     @POST("/user")
@@ -26,10 +25,10 @@ public interface RequestApi {
             @Body User user
     );
 
-    @GET("/artist_preference")
+    @GET("/artists/artist_preference")
     Call<List<Artist>> getArtists();
 
-    @GET("search")
+    @GET("songs/search")
     Call<List<Song>> searchSongs(
             @Query("q") String query
     );
