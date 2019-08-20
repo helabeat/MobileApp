@@ -8,10 +8,13 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +63,7 @@ public class UserRequest {
         ob.put("age", user.getAge());
         ob.put("artist_preference",mSelectedArtists);
         ob.put("genre_preference",mSelectedGenres);
+        ob.put("history",new ArrayList<>());
 
         // Add a new document with a generated ID
         db.collection("users")
@@ -82,4 +86,23 @@ public class UserRequest {
 
     }
 
+    public void updateHistory(String song, String userId) {
+        FirebaseFirestore db = getFIreStore();
+
+        db.collection("users")
+                .document(userId)
+                .update("history", FieldValue.arrayUnion(song))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "onSuccess: Successful");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
+    }
 }

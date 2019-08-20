@@ -51,15 +51,9 @@ public class Song {
         return thumbnailUrl;
     }
 
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-    }
 
     public String getSong_url() {
         return song_url;
     }
 
-    public void setSong_url(String song_url) {
-        this.song_url = song_url;
-    }
 }

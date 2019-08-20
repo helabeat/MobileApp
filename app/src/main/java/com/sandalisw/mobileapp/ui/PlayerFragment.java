@@ -39,8 +39,22 @@ public class PlayerFragment extends Fragment{
     }
 
 
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+            setView(view);
+        }
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //setView(view);
+    }
+
+    private void setView(View view) {
         TextView songtitle = view.findViewById(R.id.current_song_playing);
         TextView artisttitle = (TextView)view.findViewById(R.id.current_artist_playing);
         ImageView thumbnail = (ImageView)view.findViewById(R.id.image_thumbnail);

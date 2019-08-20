@@ -3,6 +3,7 @@ package com.sandalisw.mobileapp.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,10 +21,12 @@ import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.adapters.SearchItemAdapter;
 import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.viewmodels.SongViewModel;
+import com.sandalisw.mobileapp.viewmodels.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 
 public class SearchFragment extends Fragment implements SearchItemAdapter.SongResultSelection {
@@ -32,6 +35,7 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
     private static final String TAG = "SearchFragment";
     private View view;
     private SongViewModel mSongViewModel;
+    private UserViewModel mUserViewModel;
     private SearchItemAdapter searchItemAdapter;
     private RecyclerView recyclerView;
     private List<Song> dataList;
@@ -50,6 +54,7 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mSongViewModel = ViewModelProviders.of(this).get(SongViewModel.class);
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         initSearchView();
         initRecyclerView(view);
 
@@ -97,6 +102,7 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
         MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
                 .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
                 .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,song.getTitle())
+                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE,song.getArtist())
                 .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,song.getThumbnailUrl())
                 .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, song.getSong_url())
                 .build();
@@ -111,6 +117,10 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
 
     @Override
     public void onSongClick(int position) {
+        SharedPreferences sp = this.getActivity().getSharedPreferences("User_Data",MODE_PRIVATE);
+        String userId = sp.getString("userId","0");
+        mUserViewModel.updateHistory(dataList.get(position).getTitle(),userId);
+
         addToMediaLibrary(dataList.get(position));
         mIMainActivity.getMyApplication().setMediaItems(mLibrary);
         //adapter should highlight the selected song

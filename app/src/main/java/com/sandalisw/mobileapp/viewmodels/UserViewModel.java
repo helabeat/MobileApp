@@ -5,10 +5,9 @@ import android.arch.lifecycle.ViewModel;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
 import com.sandalisw.mobileapp.repository.UserRepository;
-
-import java.util.List;
 
 
 public class UserViewModel extends ViewModel {
@@ -23,7 +22,9 @@ public class UserViewModel extends ViewModel {
     public LiveData<String> registerUser(User mUser) {
         Log.d(TAG, "registerUser: "+mUser.toString());
         return mRepository.registerUser(mUser,mUser.getArtist_preference(),mUser.getGenre_preference());
+    }
 
+    public void updateHistory(String song,String userId){ mRepository.updateHistory(song,userId);
     }
 
 

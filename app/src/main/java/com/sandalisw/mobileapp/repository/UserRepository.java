@@ -2,6 +2,7 @@ package com.sandalisw.mobileapp.repository;
 
 import android.arch.lifecycle.LiveData;
 
+import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
 import com.sandalisw.mobileapp.requests.UserRequest;
 
@@ -25,6 +26,10 @@ public class UserRepository {
 
     public LiveData<String> registerUser(User user, List<String> mSelectedArtists, List<String> mSelectedGenres) {
         return mApiClient.registerUser(user,mSelectedArtists,mSelectedGenres);
+    }
+
+    public void updateHistory(String song,String userId){
+        mApiClient.updateHistory(song,userId);
     }
 
 
