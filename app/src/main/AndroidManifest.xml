@@ -8,7 +8,7 @@
     <application
         android:name=".MediaApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/main_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -16,11 +16,13 @@
         <activity
             android:name=".ui.ConsentActivity"
             android:label="@string/title_activity_consent"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar">
         </activity>
         <activity
             android:name=".ui.GenresActivity"
             android:label="@string/title_activity_genres"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.SignupActivity"

@@ -11,6 +11,7 @@ import android.util.Log;
 import com.sandalisw.mobileapp.models.Artist;
 import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
+import com.sandalisw.mobileapp.requests.responses.TopSongsResponse;
 
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class RequestApiClient {
     private static final String TAG = "RequestApiClient";
 
     private static RequestApiClient instance;
-    private MutableLiveData<List<Song>> mSongs;
+    private MutableLiveData<TopSongsResponse> mSongs;
     private MutableLiveData<List<Artist>> mArtists;
     private MutableLiveData<List<Song>> mSearchResults;
     private MutableLiveData<Boolean> isRegistered;
@@ -43,7 +44,7 @@ public class RequestApiClient {
         return instance;
     }
 
-    public LiveData<List<Song>> getSongs(){
+    public LiveData<TopSongsResponse> getSongs(){
         getAllSongs();
         return mSongs;
     }
@@ -87,20 +88,20 @@ public class RequestApiClient {
     }
 
     private void getAllSongs(){
-        Call<List<Song>> call= ServiceGenerator.getRequestApi().getAllSongs();
+        Call<TopSongsResponse> call= ServiceGenerator.getRequestApi().getAllSongs();
 
-        call.enqueue(new Callback<List<Song>>() {
+        call.enqueue(new Callback<TopSongsResponse>() {
             @Override
-            public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
-                Log.d(TAG, "onResponse: "+response.code());
+            public void onResponse(Call<TopSongsResponse> call, Response<TopSongsResponse> response) {
+                Log.d(TAG, "onResponse: "+response.body().getRecent_songs().size());
 
                 mSongs.setValue(response.body());
-                Log.d(TAG, "onResponse: "+response.body().isEmpty());
+                Log.d(TAG, "onResponse: "+response.body().toString());
 
             }
 
             @Override
-            public void onFailure(Call<List<Song>> call, Throwable t) {
+            public void onFailure(Call<TopSongsResponse> call, Throwable t) {
                 Log.d(TAG, "onFailure: "+t.toString());
             }
         });

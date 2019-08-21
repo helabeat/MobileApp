@@ -64,15 +64,24 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_below="@+id/current_song_details"
         android:layout_marginTop="20dp"
         >
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Up Next"
+            android:textAppearance="@style/subtitle"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="This feature will be added soon"
+            android:textAlignment="center"
             android:textAppearance="@style/subtitle"/>
 
         //this should be implemented when dynamic playlist is added

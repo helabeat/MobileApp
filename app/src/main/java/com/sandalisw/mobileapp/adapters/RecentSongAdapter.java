@@ -23,10 +23,12 @@ public class RecentSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Context mContext;
     private List<Song> dataList = new ArrayList<>();
     private SongListener mSongListener;
+    private int mCategory;
 
-    public RecentSongAdapter(Context context, SongListener songListener) {
+    public RecentSongAdapter(Context context, SongListener songListener,int category) {
         mContext = context;
         mSongListener = songListener;
+        mCategory =  category;
     }
 
     @NonNull
@@ -79,13 +81,13 @@ public class RecentSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @Override
         public void onClick(View v) {
-            songListener.onSongClick(getAdapterPosition());
+            songListener.onSongClick(getAdapterPosition(),mCategory);
         }
     }
 
     public interface SongListener{
 
-        void onSongClick(int position);
+        void onSongClick(int position,int category);
 
     }
 }

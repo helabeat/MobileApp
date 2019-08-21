@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.adapters.RecentSongAdapter;
 import com.sandalisw.mobileapp.models.Song;
+import com.sandalisw.mobileapp.requests.responses.TopSongsResponse;
 import com.sandalisw.mobileapp.viewmodels.SongViewModel;
 import com.sandalisw.mobileapp.viewmodels.UserViewModel;
 
@@ -32,9 +33,12 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
 
     private static final String TAG = "HomeFragment";
 
-    private RecentSongAdapter songAdapter;
-    private RecyclerView recyclerView;
-    //private Library mLibrary = new Library();
+    private RecentSongAdapter songAdapter_recent;
+    private RecentSongAdapter songAdapter_old;
+
+    private RecyclerView recyclerView_recent;
+    private RecyclerView recyclerView_old;
+
     private IMainActivity mIMainActivity;
     private MediaMetadataCompat mSelectedMedia;
     private SongViewModel mViewModel;
@@ -58,27 +62,38 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
     }
 
     private void initRecyclerView(View view){
-        recyclerView = view.findViewById(R.id.recent_songs_recyclerview);
-        songAdapter = new RecentSongAdapter(getActivity(),this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(songAdapter);
+        recyclerView_recent = view.findViewById(R.id.recent_songs_recyclerview);
+        songAdapter_recent = new RecentSongAdapter(getActivity(),this,1);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity(), HORIZONTAL, false);
+        recyclerView_recent.setLayoutManager(layoutManager1);
+        recyclerView_recent.setAdapter(songAdapter_recent);
+
+        recyclerView_old = view.findViewById(R.id.classical_songs_recyclerview);
+        songAdapter_old = new RecentSongAdapter(getActivity(),this,2);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getActivity(), HORIZONTAL, false);
+        recyclerView_old.setLayoutManager(layoutManager2);
+        recyclerView_old.setAdapter(songAdapter_old);
+
     }
 
     private void subscribeObservers(){
-        mViewModel.getSongs().observe(this,new Observer<List<Song>>(){
+        mViewModel.getSongs().observe(this,new Observer<TopSongsResponse>(){
 
             @Override
-            public void onChanged(@Nullable List<Song> mData) {
+            public void onChanged(@Nullable TopSongsResponse mData) {
                 //this logic should be changed
-                addtolibrary(mData);
-                songAdapter.setDataList(mData);
+                addtolibrary(mData.getRecent_songs());
+                addtolibrary(mData.getOld_songs());
+                //
+                songAdapter_recent.setDataList(mData.getRecent_songs());
+                songAdapter_old.setDataList(mData.getOld_songs());
             }
         });
     }
 
-    public void addtolibrary(List<Song> mediaData){
-        for(Song song:mediaData){
+    public void addtolibrary(List<Song> sg){
+        Log.d(TAG, "addtolibrary: "+sg.size());
+        for(Song song : sg){
             MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
                     .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
                     .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,song.getTitle())
@@ -86,9 +101,10 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
                     .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,song.getThumbnailUrl())
                     .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, song.getSong_url())
                     .build();
-
             mLibrary.add(mData);
         }
+
+
     }
 
     @Override
@@ -99,16 +115,17 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
 
 
     @Override
-    public void onSongClick(int position) {
+    public void onSongClick(int position, int category) {
+        if (category == 1) {
+            mSelectedMedia = mLibrary.get(position);
+        }else{
+            mSelectedMedia = mLibrary.get((position+10));
+        }
         mIMainActivity.getMyApplication().setMediaItems(mLibrary);
-        mSelectedMedia = mLibrary.get(position);
 
         SharedPreferences sp = this.getActivity().getSharedPreferences("User_Data",MODE_PRIVATE);
         String userId = sp.getString("userId","0");
         mUserViewModel.updateHistory(mSelectedMedia.getDescription().getTitle().toString(),userId);
-
-        Log.d(TAG, "onMediaSelected: "+mLibrary.size());
-
 
         //adapter should highlight the selected song
         //songAdapter.setSelectedIndex(position);

@@ -7,6 +7,7 @@ import com.sandalisw.mobileapp.models.Artist;
 import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
 import com.sandalisw.mobileapp.requests.RequestApiClient;
+import com.sandalisw.mobileapp.requests.responses.TopSongsResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +27,7 @@ public class SongRepository {
         return instance;
     }
 
-    public LiveData<List<Song>> getSongs(){
+    public LiveData<TopSongsResponse> getSongs(){
         return mApiClient.getSongs();
     }
 

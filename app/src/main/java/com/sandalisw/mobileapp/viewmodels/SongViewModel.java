@@ -7,6 +7,7 @@ import android.util.Log;
 import com.sandalisw.mobileapp.models.Artist;
 import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.repository.SongRepository;
+import com.sandalisw.mobileapp.requests.responses.TopSongsResponse;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class SongViewModel extends ViewModel {
         mRepository = SongRepository.getInstance();
     }
 
-    public LiveData<List<Song>> getSongs(){
+    public LiveData<TopSongsResponse> getSongs(){
         return mRepository.getSongs();
     }
 
