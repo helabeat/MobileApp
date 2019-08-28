@@ -14,19 +14,14 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.sandalisw.mobileapp.MediaApplication;
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.adapters.TabAdapter;
 import com.sandalisw.mobileapp.client.MediaBrowserHelper;
 import com.sandalisw.mobileapp.client.MediaBrowserHelperCallback;
 import com.sandalisw.mobileapp.services.MediaService;
-import com.sandalisw.mobileapp.viewmodels.SongViewModel;
 
 
 public class MainActivity extends AppCompatActivity implements IMainActivity, MediaBrowserHelperCallback {
@@ -118,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
             mMediaBrowserHelper.getTransportControls().pause();
         }else{
             mMediaBrowserHelper.getTransportControls().play();
-            mIsPlaying = true;
         }
     }
 
@@ -132,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
     public void onMediaSelected(MediaMetadataCompat mediaItem) {
         if(mediaItem != null){
             setMediadata(mediaItem);
-            Log.d(TAG, "onMediaSelected: Called"+mediaItem.getDescription()+" mediaId "+mediaItem.getDescription().getMediaId());
             //mMediaBrowserHelper.subscribeToPlaylist(playlistId);
             mMediaBrowserHelper.getTransportControls().playFromMediaId(mediaItem.getDescription().getMediaId(),null);
 
@@ -164,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     @Override
     public void onMetaDataChanged(MediaMetadataCompat metaData) {
-        Log.d(TAG, "onMetaDataChanged: called");
         //New metadata for song
         if(metaData == null){
             return;
@@ -174,10 +166,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     @Override
     public void onPlaybackStateChanged(PlaybackStateCompat state) {
-        Log.d(TAG, "onPlaybackStateChanged: called");
         mIsPlaying = state != null &&
                 state.getState() == PlaybackStateCompat.STATE_PLAYING;
-        Log.d(TAG, "onPlaybackStateChanged: iSplaying"+mIsPlaying);
 
         //update UI
         if(getMediaControllerFragment() != null){
@@ -232,7 +222,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     @Override
     protected void onPause() {
-        Log.d(TAG, "onPause: called");
         super.onPause();
         if(mSeekbarBroadcast != null){
             unregisterReceiver(mSeekbarBroadcast);

@@ -43,11 +43,21 @@
             android:text="Next >" />
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progresbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+
     <LinearLayout
+        android:id="@+id/selection"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginStart="20dp"
+        android:visibility="visible"
         >
         <CheckBox android:id="@+id/classical"
             android:layout_width="wrap_content"

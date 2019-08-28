@@ -138,7 +138,7 @@ public class SignupActivity extends AppCompatActivity {
             input_password.setError(null);
 
         }
-        user = new User(name,email,age,password);
+        user = new User(name,email,age,password,gender);
         Log.d(TAG, "validate: "+user.toString()+"validation is"+valid);
         return valid;
     }

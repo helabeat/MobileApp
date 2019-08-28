@@ -71,7 +71,6 @@ public class MediaBrowserHelper {
     private  class MediaControllerCallback extends MediaControllerCompat.Callback{
         @Override
         public void onPlaybackStateChanged(PlaybackStateCompat state) {
-            Log.d(TAG, "onPlaybackStateChanged: called");
             if(mMediaBrowserHelperCallback != null){
                 mMediaBrowserHelperCallback.onPlaybackStateChanged(state);
             }
@@ -116,8 +115,8 @@ public class MediaBrowserHelper {
     }
 
     public MediaControllerCompat.TransportControls getTransportControls(){
+        Log.d(TAG, "getTransportControls: ");
         if(mMediaController == null){
-            Log.d(TAG, "getTransportControls: MediaController is null!");
             throw new IllegalStateException("MediaController is null!");
         }
         return mMediaController.getTransportControls();

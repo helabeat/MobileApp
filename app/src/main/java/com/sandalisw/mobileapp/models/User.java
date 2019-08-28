@@ -19,6 +19,9 @@ public class User implements Serializable {
     @SerializedName("password")
     private String password;
 
+    @SerializedName("gender")
+    private String gender;
+
 
     @SerializedName("artist_preference")
     private List<String> artist_preference;
@@ -26,11 +29,13 @@ public class User implements Serializable {
     @SerializedName("genre_preference")
     private  List<String> genre_preference;
 
-    public User(String mUsername,String mEmail, String mAge, String mPassword){
+    public User(String mUsername,String mEmail, String mAge, String mPassword, String mGender){
         username = mUsername;
         email = mEmail;
         age = mAge;
         password = mPassword;
+        gender = mGender;
+
     }
 
     public String getUsername() {
@@ -64,6 +69,15 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
 
     public List<String> getArtist_preference() {
         return artist_preference;

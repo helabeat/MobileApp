@@ -69,12 +69,17 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
     }
 
 
-    private void subscribeObservers(String s){
+    private void subscribeObservers(final String s){
         mSongViewModel.searchSong(s).observe(this, new Observer<List<Song>>() {
             @Override
             public void onChanged(@Nullable List<Song> songs) {
                 searchItemAdapter.setDataList(songs);
                 dataList = songs;
+                Log.d(TAG, "onChanged: no search "+songs.get(0).getId());
+                if(songs.get(0).getId() == "-1"){
+                    Log.d(TAG, "onChanged: no search");
+                    updateHistory(-1,s);
+                }
             }
         });
     }
@@ -115,11 +120,20 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
         mIMainActivity = (IMainActivity) getActivity();
     }
 
-    @Override
-    public void onSongClick(int position) {
+    public void updateHistory(int position,String s){
         SharedPreferences sp = this.getActivity().getSharedPreferences("User_Data",MODE_PRIVATE);
         String userId = sp.getString("userId","0");
-        mUserViewModel.updateHistory(dataList.get(position).getTitle(),userId);
+
+        if(position == -1){
+            mUserViewModel.updateHistory(new Song(s, -1),userId);
+        }
+
+        mUserViewModel.updateHistory(new Song(dataList.get(position)),userId);
+    }
+
+    @Override
+    public void onSongClick(int position) {
+        updateHistory(position,"");
 
         addToMediaLibrary(dataList.get(position));
         mIMainActivity.getMyApplication().setMediaItems(mLibrary);

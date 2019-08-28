@@ -17,8 +17,7 @@
             android:name=".ui.ConsentActivity"
             android:label="@string/title_activity_consent"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar">
-        </activity>
+            android:theme="@style/NoActionBar"></activity>
         <activity
             android:name=".ui.GenresActivity"
             android:label="@string/title_activity_genres"
@@ -27,8 +26,7 @@
         <activity
             android:name=".ui.SignupActivity"
             android:label="@string/title_activity_signup"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.PreferencesActivity" />
         <activity
             android:name=".ui.MainActivity"

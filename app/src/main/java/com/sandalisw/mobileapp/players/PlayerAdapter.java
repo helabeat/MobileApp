@@ -41,6 +41,7 @@ public abstract class PlayerAdapter {
      */
 
     public final void play() {
+        Log.d(TAG, "play: PlayerAdapter "+mAudioFocusHelper.requestAudioFocus());
         if (mAudioFocusHelper.requestAudioFocus()) {
             registerAudioNoisyReceiver();
             onPlay();

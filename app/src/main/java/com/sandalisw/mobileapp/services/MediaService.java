@@ -113,9 +113,9 @@ public class MediaService extends MediaBrowserServiceCompat {
 
         @Override
         public void onPlay() {
-            if(!isReadyToPlay()){
-                return;
-            }
+//            if(!isReadyToPlay()){
+//                return;
+//            }
 
             if(mPreparedMedia == null){
                 onPrepare();
@@ -126,7 +126,6 @@ public class MediaService extends MediaBrowserServiceCompat {
 
         @Override
         public void onPlayFromMediaId(String mediaId, Bundle extras) {
-            Log.d(TAG, "onPlayFromMediaId: Called");
 
             mPreparedMedia = mAppication.getMediaItem(mediaId);
             mSession.setMetadata(mPreparedMedia);

@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.sandalisw.mobileapp.R;
@@ -44,6 +46,12 @@ public class GenresActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Select at least one!", Toast.LENGTH_LONG).show();
                     return;
                 }
+                LinearLayout layout1 = findViewById(R.id.selection);
+                LinearLayout layout2 = findViewById(R.id.preference_bar);
+                layout1.setVisibility(View.GONE);
+                layout2.setVisibility(View.GONE);
+                ProgressBar pb = findViewById(R.id.progresbar);
+                pb.setVisibility(View.VISIBLE);
                 onNext();
                 registerUser();
             }
@@ -76,10 +84,6 @@ public class GenresActivity extends AppCompatActivity {
         user = (User)i.getSerializableExtra("user");
         user.setGenre_preference(mSelectedGenres);
     }
-
-
-
-
 
 
     public void onCheckboxClicked(View view) {

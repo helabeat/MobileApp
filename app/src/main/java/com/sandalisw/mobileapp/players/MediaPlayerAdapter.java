@@ -70,6 +70,7 @@ public class MediaPlayerAdapter extends PlayerAdapter {
     @Override
     protected void onPlay() {
         if(mExoPlayer != null && !mExoPlayer.getPlayWhenReady()){
+            Log.d(TAG, "onPlay: insdied");
             mExoPlayer.setPlayWhenReady(true);
             setNewState(PlaybackStateCompat.STATE_PLAYING);
         }
@@ -85,7 +86,6 @@ public class MediaPlayerAdapter extends PlayerAdapter {
 
     @Override
     public void playFromMedia(MediaMetadataCompat metadata) {
-        Log.d(TAG, "playFromMedia: called");
         startTrackingPlayback();
         playFile(metadata);
 

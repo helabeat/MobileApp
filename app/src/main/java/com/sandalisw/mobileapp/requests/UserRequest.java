@@ -11,6 +11,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.SetOptions;
 import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
 
@@ -61,6 +62,7 @@ public class UserRequest {
         ob.put("name", user.getUsername());
         ob.put("email", user.getEmail());
         ob.put("age", user.getAge());
+        ob.put("gender",user.getGender());
         ob.put("artist_preference",mSelectedArtists);
         ob.put("genre_preference",mSelectedGenres);
         ob.put("history",new ArrayList<>());
@@ -86,16 +88,21 @@ public class UserRequest {
 
     }
 
-    public void updateHistory(String song, String userId) {
+    public void updateHistory(Song song, String userId) {
         FirebaseFirestore db = getFIreStore();
+        Map<String, Object> ob = new HashMap<>();
+        ob.put("id",song.getId());
+        ob.put("name",song.getTitle());
+        ob.put("artist",song.getArtist());
 
         db.collection("users")
                 .document(userId)
-                .update("history", FieldValue.arrayUnion(song))
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                .collection("history")
+                .add(ob)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "onSuccess: Successful");
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

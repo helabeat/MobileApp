@@ -28,7 +28,7 @@ public class UserRepository {
         return mApiClient.registerUser(user,mSelectedArtists,mSelectedGenres);
     }
 
-    public void updateHistory(String song,String userId){
+    public void updateHistory(Song song,String userId){
         mApiClient.updateHistory(song,userId);
     }
 
