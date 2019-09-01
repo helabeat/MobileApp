@@ -1,6 +1,5 @@
 package com.sandalisw.mobileapp.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -41,17 +40,18 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: for saved");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         //onetime signup check
-        SharedPreferences sp = getSharedPreferences("User_Data",MODE_PRIVATE);
-        Log.d(TAG, "onCreate: "+sp.getString("userId","0"));
-        Log.d(TAG, "onCreate: "+sp.getBoolean("loggedIn",false));
-        boolean b = sp.getBoolean("loggedIn",false);
+        SharedPreferences sp_user = getSharedPreferences("User_Data",MODE_PRIVATE);
+        boolean b = sp_user.getBoolean("loggedIn",false);
         if(!b){
             Intent i = new Intent(this,ConsentActivity.class);
             startActivity(i);
+            finish();
         }
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -193,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
         return  null;
     }
 
+
     private void initSeekBarBroadcastReceiver(){
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(getString(R.string.broadcast_seekbar_update));
@@ -216,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     @Override
     protected void onResume() {
+        Log.d(TAG, "onResume: called");
         super.onResume();
         initSeekBarBroadcastReceiver();
     }

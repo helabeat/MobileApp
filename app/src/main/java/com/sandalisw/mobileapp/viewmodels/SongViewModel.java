@@ -1,7 +1,9 @@
 package com.sandalisw.mobileapp.viewmodels;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.v4.media.MediaMetadataCompat;
 import android.util.Log;
 
 import com.sandalisw.mobileapp.models.Artist;
@@ -13,6 +15,7 @@ import java.util.List;
 
 public class SongViewModel extends ViewModel {
     private static final String TAG = "SongViewModel";
+    private final MutableLiveData<MediaMetadataCompat> currentMedia = new MutableLiveData<MediaMetadataCompat>();
 
     private SongRepository mRepository;
 
@@ -25,7 +28,6 @@ public class SongViewModel extends ViewModel {
     }
 
     public LiveData<List<Song>> searchSong(String s){
-        Log.d(TAG, "searchSong: Called in viewmodel");
         return mRepository.searchSongs(s);
     }
 
@@ -33,5 +35,13 @@ public class SongViewModel extends ViewModel {
         return mRepository.getArtists();
     }
 
+    public LiveData<MediaMetadataCompat> getCurrentMedia(){
+        Log.d(TAG, "getCurrentMedia: changed");
+        return currentMedia;
+    }
 
+    public void setCurrentMedia(MediaMetadataCompat mMedia) {
+        Log.d(TAG, "setCurrentMedia: checked");
+        currentMedia.setValue(mMedia);
+    }
 }

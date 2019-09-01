@@ -6,6 +6,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.sandalisw.mobileapp.R;
+import com.sandalisw.mobileapp.ui.MediaControllerFragment;
+import com.sandalisw.mobileapp.ui.PlayerFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +43,7 @@ public class TabAdapter extends FragmentPagerAdapter {
         listFragment.add(fragment);
         listTitles.add(title);
     }
+
 
 
 }

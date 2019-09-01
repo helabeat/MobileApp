@@ -15,7 +15,9 @@ import com.google.firebase.firestore.SetOptions;
 import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,10 +92,15 @@ public class UserRequest {
 
     public void updateHistory(Song song, String userId) {
         FirebaseFirestore db = getFIreStore();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+        String currentDateandTime = sdf.format(new Date());
+
         Map<String, Object> ob = new HashMap<>();
         ob.put("id",song.getId());
         ob.put("name",song.getTitle());
         ob.put("artist",song.getArtist());
+        ob.put("date-time",currentDateandTime);
 
         db.collection("users")
                 .document(userId)

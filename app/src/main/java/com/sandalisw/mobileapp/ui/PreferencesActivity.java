@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.adapters.ArtistAdapter;
@@ -48,6 +49,10 @@ public class PreferencesActivity extends AppCompatActivity implements ArtistAdap
         final Button button = findViewById(R.id.button_next);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if(selectedArtists.isEmpty()){
+                    Toast.makeText(getBaseContext(), "Select at least one!", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 onNext();
                 Intent nextActivity = new Intent(PreferencesActivity.this, GenresActivity.class);
                 nextActivity.putExtra("user",user);

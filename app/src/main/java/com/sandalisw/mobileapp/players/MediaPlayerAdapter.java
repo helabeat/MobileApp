@@ -93,7 +93,7 @@ public class MediaPlayerAdapter extends PlayerAdapter {
 
     @Override
     public MediaMetadataCompat getCurrentMedia() {
-        return null;
+        return mCurrentMedia;
     }
 
     @Override

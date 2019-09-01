@@ -37,6 +37,7 @@ public class MediaControllerFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onViewCreated: saved");
 
         mSeekbar = view.findViewById(R.id.seek_bar);
         msongTitile = view.findViewById(R.id.current_song);
@@ -44,6 +45,7 @@ public class MediaControllerFragment extends Fragment implements View.OnClickLis
         mPlayPause = view.findViewById(R.id.playPause);
 
         mPlayPause.setOnClickListener(this);
+
     }
 
 
@@ -75,7 +77,6 @@ public class MediaControllerFragment extends Fragment implements View.OnClickLis
 
     public void setMediaData(MediaMetadataCompat mediaItem){
         Log.d(TAG, "setMediaData: called for media title and thumbnail");
-
         msongTitile.setText(mediaItem.getDescription().getTitle());
         Glide.with(getActivity())
                 .load(mediaItem.getDescription().getIconUri())
@@ -88,4 +89,5 @@ public class MediaControllerFragment extends Fragment implements View.OnClickLis
         super.onAttach(context);
         mIMainActivity = (IMainActivity) getActivity();
     }
+
 }

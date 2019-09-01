@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
 
     private IMainActivity mIMainActivity;
     private MediaMetadataCompat mSelectedMedia;
-    private SongViewModel mViewModel;
+    private SongViewModel mSongViewModel;
     private UserViewModel mUserViewModel;
     private List<MediaMetadataCompat> mLibrary = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mViewModel = ViewModelProviders.of(this).get(SongViewModel.class);
+        mSongViewModel = ViewModelProviders.of(this).get(SongViewModel.class);
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
 
         initRecyclerView(view);
@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
     }
 
     private void subscribeObservers(){
-        mViewModel.getSongs().observe(this,new Observer<TopSongsResponse>(){
+        mSongViewModel.getSongs().observe(this,new Observer<TopSongsResponse>(){
 
             @Override
             public void onChanged(@Nullable TopSongsResponse mData) {
@@ -116,6 +116,7 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
 
     @Override
     public void onSongClick(int position, int category) {
+        Log.d(TAG, "onSongClick: clicked");
         if (category == 1) {
             mSelectedMedia = mLibrary.get(position);
         }else{
@@ -126,6 +127,7 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
         SharedPreferences sp = this.getActivity().getSharedPreferences("User_Data",MODE_PRIVATE);
         String userId = sp.getString("userId","0");
         mUserViewModel.updateHistory(new Song(mSelectedMedia),userId);
+        mSongViewModel.setCurrentMedia(mSelectedMedia);
 
         //adapter should highlight the selected song
         //songAdapter.setSelectedIndex(position);

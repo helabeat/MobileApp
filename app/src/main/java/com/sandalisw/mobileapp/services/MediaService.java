@@ -1,9 +1,13 @@
 package com.sandalisw.mobileapp.services;
 
+import android.app.Notification;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserServiceCompat;
 import android.support.v4.media.MediaDescriptionCompat;
@@ -14,8 +18,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.sandalisw.mobileapp.MediaApplication;
+import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.players.MediaPlayerAdapter;
 import com.sandalisw.mobileapp.players.PlaybackInfoListener;
+import com.sandalisw.mobileapp.services.notifications.MediaNotificationManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +33,8 @@ public class MediaService extends MediaBrowserServiceCompat {
     private MediaSessionCompat mSession;//central host for playing media files
     private MediaPlayerAdapter mPlayback;
     private MediaApplication mAppication;
+    private MediaNotificationManager mMediaNotificationManager;
+    private boolean mIsServiceRunning;
 
 
     @Override
@@ -51,6 +59,8 @@ public class MediaService extends MediaBrowserServiceCompat {
         setSessionToken(mSession.getSessionToken());
 
         mPlayback = new MediaPlayerAdapter(this,new MediaPlayerListener());
+
+        mMediaNotificationManager = new MediaNotificationManager(this);
     }
 
 
@@ -194,23 +204,38 @@ public class MediaService extends MediaBrowserServiceCompat {
 
     private class MediaPlayerListener implements PlaybackInfoListener {
 
+        private final ServiceManager mServiceManager;
+
+        MediaPlayerListener() {
+            mServiceManager = new ServiceManager();
+        }
+
+
+        @Override
+        public void updateUI(String newMediaId) {
+            Log.d(TAG, "updateUI: ");
+            Intent intent = new Intent();
+            intent.setAction(getString(R.string.broadcast_update_ui));
+            intent.putExtra(getString(R.string.broadcast_new_media_id),newMediaId);
+            sendBroadcast(intent);
+        }
 
         @Override
         public void onPlaybackStateChanged(PlaybackStateCompat state) {
             //Report the state to the mediasession
             mSession.setPlaybackState(state);
 
-//            switch (state.getState()){
-//                case PlaybackStateCompat.STATE_PLAYING:
-//                    mServiceManager.displayNotification(state);
-//                    break;
-//                case PlaybackStateCompat.STATE_PAUSED:
-//                    mServiceManager.displayNotification(state);
-//                    break;
-//                case PlaybackStateCompat.STATE_STOPPED:
-//                    mServiceManager.moveServiceOutOfStartedState();
-//                    break;
-//            }
+            switch (state.getState()){
+                case PlaybackStateCompat.STATE_PLAYING:
+                    mServiceManager.displayNotification(state);
+                    break;
+                case PlaybackStateCompat.STATE_PAUSED:
+                    mServiceManager.displayNotification(state);
+                    break;
+                case PlaybackStateCompat.STATE_STOPPED:
+                    mServiceManager.moveServiceOutofStartedState();
+                    break;
+            }
         }
 
         @Override
@@ -230,6 +255,47 @@ public class MediaService extends MediaBrowserServiceCompat {
             Log.d(TAG, "onPlaybackComplete: called");
             //mSession.getController().getTransportControls().skipToNext();
             mSession.getController().getTransportControls().stop();
+        }
+
+        class ServiceManager{
+            private PlaybackStateCompat mState;
+
+            public  ServiceManager(){}
+
+            public void displayNotification(PlaybackStateCompat state){
+                Notification notification = null;
+
+                switch (state.getState()){
+                    case PlaybackStateCompat.STATE_PLAYING:{
+                        notification = mMediaNotificationManager.buildNotification(
+                                state,getSessionToken(),mPlayback.getCurrentMedia().getDescription(),null
+                        );
+                        if(!mIsServiceRunning){
+                            ContextCompat.startForegroundService(MediaService.this,
+                                    new Intent(MediaService.this, MediaService.class));
+                            mIsServiceRunning = true;
+                        }
+
+                        startForeground(MediaNotificationManager.NOTIFICATION_ID,notification);
+                        break;
+                    }
+                    case PlaybackStateCompat.STATE_PAUSED:{
+                       stopForeground(false);
+                        notification = mMediaNotificationManager.buildNotification(
+                                state,getSessionToken(),mPlayback.getCurrentMedia().getDescription(),null
+                        );
+
+                        mMediaNotificationManager.getmNotificationManager().notify(MediaNotificationManager.NOTIFICATION_ID,notification);
+                        break;
+                    }
+                }
+            }
+
+            private void moveServiceOutofStartedState(){
+                stopForeground(true);
+                stopSelf();
+                mIsServiceRunning = false;
+            }
         }
     }
 

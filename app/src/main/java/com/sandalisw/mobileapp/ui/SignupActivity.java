@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.models.User;
-import com.sandalisw.mobileapp.viewmodels.UserViewModel;
 
 public class SignupActivity extends AppCompatActivity {
 

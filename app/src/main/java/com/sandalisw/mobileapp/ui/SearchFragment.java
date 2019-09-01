@@ -141,5 +141,6 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
         //songAdapter.setSelectedIndex(position);
         mSelectedMedia= mLibrary.get(0);
         mIMainActivity.onMediaSelected(mSelectedMedia);
+        mSongViewModel.setCurrentMedia(mSelectedMedia);
     }
 }
