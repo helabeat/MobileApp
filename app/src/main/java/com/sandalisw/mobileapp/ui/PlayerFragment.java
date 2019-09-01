@@ -37,25 +37,6 @@ public class PlayerFragment extends Fragment{
         return view;
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-
-
-        if (isVisibleToUser) {
-            Log.d("MyFragment", "Fragment is visible.");
-            mSongViewModel.getCurrentMedia().observe(this, new Observer<MediaMetadataCompat>() {
-                @Override
-                public void onChanged(@Nullable MediaMetadataCompat mediaMetadataCompat) {
-                    Log.d(TAG, "onChanged: media changed");
-                    setView(mediaMetadataCompat);
-                }
-            });
-
-        }else {
-            Log.d("MyFragment", "Fragment is not visible.");
-        }
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
