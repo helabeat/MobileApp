@@ -127,7 +127,8 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
         SharedPreferences sp = this.getActivity().getSharedPreferences("User_Data",MODE_PRIVATE);
         String userId = sp.getString("userId","0");
         mUserViewModel.updateHistory(new Song(mSelectedMedia),userId);
-        mSongViewModel.setCurrentMedia(mSelectedMedia);
+
+
 
         //adapter should highlight the selected song
         //songAdapter.setSelectedIndex(position);

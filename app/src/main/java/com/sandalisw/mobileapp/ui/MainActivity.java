@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate: for saved");
+        Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -93,6 +93,22 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_player);
         tabLayout.getTabAt(3).setIcon(R.drawable.ic_profile);
 
+    }
+
+    private void saveInstance(MediaMetadataCompat currentMedia){
+        if(currentMedia != null) {
+            SharedPreferences instance = getSharedPreferences("current_media", Context.MODE_PRIVATE);
+            instance.edit().putString("media_title", currentMedia.getDescription().getTitle().toString()).apply();
+            instance.edit().putString("media_icon", currentMedia.getDescription().getIconUri().toString()).apply();
+            instance.edit().putBoolean("is_playing", mIsPlaying).apply();
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        saveInstance(mediaMetadata);
+        super.onBackPressed();
     }
 
     @Override

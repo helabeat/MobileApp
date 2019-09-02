@@ -35,13 +35,4 @@ public class SongViewModel extends ViewModel {
         return mRepository.getArtists();
     }
 
-    public LiveData<MediaMetadataCompat> getCurrentMedia(){
-        Log.d(TAG, "getCurrentMedia: changed");
-        return currentMedia;
-    }
-
-    public void setCurrentMedia(MediaMetadataCompat mMedia) {
-        Log.d(TAG, "setCurrentMedia: checked");
-        currentMedia.setValue(mMedia);
-    }
 }

@@ -43,16 +43,14 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:layout_marginStart="20dp"
-                android:textAppearance="@style/song_name"
-                android:text="xxxxxxxxxxxxxxx" />
+                android:textAppearance="@style/song_name" />
             <TextView
                 android:id="@+id/current_artist_playing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/artist_name"
                 android:textAlignment="center"
-                android:layout_marginStart="20dp"
-                android:text="xxxxxxxxxxx"/>
+                android:layout_marginStart="20dp" />
         </LinearLayout>
         
         <ImageView
