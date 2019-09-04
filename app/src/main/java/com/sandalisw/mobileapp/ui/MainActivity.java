@@ -95,22 +95,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     }
 
-    private void saveInstance(MediaMetadataCompat currentMedia){
-        if(currentMedia != null) {
-            SharedPreferences instance = getSharedPreferences("current_media", Context.MODE_PRIVATE);
-            instance.edit().putString("media_title", currentMedia.getDescription().getTitle().toString()).apply();
-            instance.edit().putString("media_icon", currentMedia.getDescription().getIconUri().toString()).apply();
-            instance.edit().putBoolean("is_playing", mIsPlaying).apply();
-        }
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        saveInstance(mediaMetadata);
-        super.onBackPressed();
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -244,5 +228,10 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
         if(mSeekbarBroadcast != null){
             unregisterReceiver(mSeekbarBroadcast);
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        moveTaskToBack(true);
     }
 }
