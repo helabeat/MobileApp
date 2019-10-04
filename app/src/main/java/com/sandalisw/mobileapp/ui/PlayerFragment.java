@@ -2,8 +2,6 @@ package com.sandalisw.mobileapp.ui;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,11 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.api.LogDescriptor;
 import com.sandalisw.mobileapp.R;
-import com.sandalisw.mobileapp.adapters.RecentSongAdapter;
 import com.sandalisw.mobileapp.viewmodels.SongViewModel;
-import com.sandalisw.mobileapp.viewmodels.UserViewModel;
 
 public class PlayerFragment extends Fragment{
 
@@ -33,16 +28,21 @@ public class PlayerFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_player,container,false);
-        mSongViewModel = ViewModelProviders.of(this).get(SongViewModel.class);
         return view;
     }
 
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mSongViewModel = ViewModelProviders.of(getActivity()).get(SongViewModel.class);
+        mSongViewModel.getCurrentMedia().observe(this, new Observer<MediaMetadataCompat>() {
+            @Override
+            public void onChanged(@Nullable MediaMetadataCompat mdata) {
+                setView(mdata);
+            }
+        });
     }
+
 
     private void setView(MediaMetadataCompat mdata) {
         Log.d(TAG, "setView: ");

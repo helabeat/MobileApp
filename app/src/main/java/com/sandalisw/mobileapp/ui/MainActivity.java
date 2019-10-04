@@ -13,8 +13,12 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.sandalisw.mobileapp.MediaApplication;
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.adapters.TabAdapter;
@@ -124,6 +128,9 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     @Override
     public void onMediaSelected(MediaMetadataCompat mediaItem) {
+        if(findViewById(R.id.seek_bar).getVisibility() != ViewPager.VISIBLE){
+            findViewById(R.id.seek_bar).setVisibility(View.VISIBLE);
+        }
         if(mediaItem != null){
             setMediadata(mediaItem);
             //mMediaBrowserHelper.subscribeToPlaylist(playlistId);
