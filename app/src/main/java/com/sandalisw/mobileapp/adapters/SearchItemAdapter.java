@@ -1,6 +1,7 @@
 package com.sandalisw.mobileapp.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
     private Context mContext;
     private SongResultSelection songListener;
     private List<Song> mData;
+    private int mIndex=-1;
 
     public SearchItemAdapter(Context context, SongResultSelection mSongListener){
         this.mContext = context;
@@ -38,7 +40,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchItemViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final SearchItemViewHolder viewHolder, int i) {
         Log.d(TAG, "onBindViewHolder: "+ mData.get(i).getArtist());
         viewHolder.song_title.setText(mData.get(i).getTitle());
         viewHolder.artist_title.setText(mData.get(i).getArtist());
@@ -46,6 +48,20 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
                 .load(mData.get(i).getThumbnailUrl())
                 .error(R.drawable.ic_launcher_background)
                 .into(((SearchItemViewHolder)viewHolder).thumbnail);
+
+        if(mIndex == i)
+            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.colorPrimary));
+        else
+            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.fontAshDarker));
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIndex = viewHolder.getAdapterPosition();
+                songListener.onSongClick(mIndex);
+                notifyDataSetChanged();
+            }
+        });
     }
 
 
@@ -63,28 +79,21 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
         return 0;
     }
 
-    public class SearchItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class SearchItemViewHolder extends RecyclerView.ViewHolder {
 
         ImageView thumbnail;
         TextView song_title;
         TextView artist_title;
-        private SongResultSelection songListener;
 
-        public SearchItemViewHolder(@NonNull View itemView, SongResultSelection listener) {
+         SearchItemViewHolder(@NonNull View itemView, SongResultSelection listener) {
             super(itemView);
 
             thumbnail = itemView.findViewById(R.id.thumbnail);
             song_title = itemView.findViewById(R.id.song_name);
             artist_title = itemView.findViewById(R.id.artist_name);
-            this.songListener = listener;
-            itemView.setOnClickListener(this);
+            songListener = listener;
         }
 
-        @Override
-        public void onClick(View v) {
-            Log.d(TAG, "onClick: song selected");
-            songListener.onSongClick(getAdapterPosition());
-        }
     }
 
     public interface SongResultSelection{
