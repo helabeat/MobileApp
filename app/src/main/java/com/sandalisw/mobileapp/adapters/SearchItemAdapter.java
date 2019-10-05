@@ -41,7 +41,6 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
 
     @Override
     public void onBindViewHolder(@NonNull final SearchItemViewHolder viewHolder, int i) {
-        Log.d(TAG, "onBindViewHolder: "+ mData.get(i).getArtist());
         viewHolder.song_title.setText(mData.get(i).getTitle());
         viewHolder.artist_title.setText(mData.get(i).getArtist());
         Glide.with(mContext)

@@ -40,6 +40,10 @@ public class MediaBrowserHelper {
         mMediaBrowserHelperCallback = callback;
     }
 
+    public void subscribeToPlaylist(String playlistId){
+
+    }
+
     public void onStart(){
         if(mMediaBrowser == null){
             mMediaBrowser = new MediaBrowserCompat(mContext,
@@ -106,7 +110,7 @@ public class MediaBrowserHelper {
     public class MediaBrowserSubscriptionCallback extends MediaBrowserCompat.SubscriptionCallback{
         @Override
         public void onChildrenLoaded(@NonNull String parentId, @NonNull List<MediaBrowserCompat.MediaItem> children) {
-            Log.d(TAG, "onChildrenLoaded: CALLED" + parentId+","+children.toString());
+            Log.d(TAG, "onChildrenLoaded: CALLED " + parentId+","+children.toString());
 
             for(final MediaBrowserCompat.MediaItem mediaItem : children){
                 mMediaController.addQueueItem(mediaItem.getDescription());

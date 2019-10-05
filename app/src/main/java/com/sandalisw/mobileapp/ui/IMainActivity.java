@@ -16,5 +16,4 @@ public interface IMainActivity {
 
     void setMediadata(MediaMetadataCompat mData);
 
-    MediaMetadataCompat getMediaData();
 }
