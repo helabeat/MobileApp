@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
         //onetime signup check
         SharedPreferences sp_user = getSharedPreferences("User_Data",MODE_PRIVATE);
         boolean b = sp_user.getBoolean("loggedIn",false);
-        if(!b){
+        if(b){
             Intent i = new Intent(this,ConsentActivity.class);
             startActivity(i);
             finish();

@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/concent_title"
-            android:textAppearance="@style/genres"
+            android:textAppearance="@style/concent_title"
             android:paddingBottom="20dp"
             android:paddingTop="100dp"/>
 
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/concent_content"
-            android:textAppearance="@style/song_name"
+            android:textAppearance="@style/concent_text"
             android:paddingBottom="20dp"/>
 
         <LinearLayout
@@ -61,7 +61,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/agreement"/>
+                android:text="@string/agreement"
+                android:textAppearance="@style/concent_agreement"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -70,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Continue"
-        android:textAppearance="@style/song_name"
+        android:textAppearance="@style/continue_button"
         android:layout_alignParentBottom="true"
         android:paddingBottom="15dp"
         android:clickable="false"
