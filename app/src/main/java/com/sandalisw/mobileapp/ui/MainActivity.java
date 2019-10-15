@@ -13,8 +13,12 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.sandalisw.mobileapp.MediaApplication;
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.adapters.TabAdapter;
@@ -95,22 +99,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     }
 
-    private void saveInstance(MediaMetadataCompat currentMedia){
-        if(currentMedia != null) {
-            SharedPreferences instance = getSharedPreferences("current_media", Context.MODE_PRIVATE);
-            instance.edit().putString("media_title", currentMedia.getDescription().getTitle().toString()).apply();
-            instance.edit().putString("media_icon", currentMedia.getDescription().getIconUri().toString()).apply();
-            instance.edit().putBoolean("is_playing", mIsPlaying).apply();
-        }
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        saveInstance(mediaMetadata);
-        super.onBackPressed();
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -140,6 +128,9 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
     @Override
     public void onMediaSelected(MediaMetadataCompat mediaItem) {
+        if(findViewById(R.id.seek_bar).getVisibility() != ViewPager.VISIBLE){
+            findViewById(R.id.seek_bar).setVisibility(View.VISIBLE);
+        }
         if(mediaItem != null){
             setMediadata(mediaItem);
             //mMediaBrowserHelper.subscribeToPlaylist(playlistId);
@@ -244,5 +235,10 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
         if(mSeekbarBroadcast != null){
             unregisterReceiver(mSeekbarBroadcast);
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        moveTaskToBack(true);
     }
 }
