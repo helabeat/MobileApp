@@ -1,5 +1,6 @@
 package com.sandalisw.mobileapp.ui;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.adapters.SearchItemAdapter;
@@ -41,6 +43,7 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
     private List<Song> dataList;
     private IMainActivity mIMainActivity;
     private MediaMetadataCompat mSelectedMedia;
+    private SearchView searchview;
     private List<MediaMetadataCompat> mLibrary = new ArrayList<>();
 
 
@@ -84,7 +87,7 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
         });
     }
     private void initSearchView(){
-        final SearchView searchview = view.findViewById(R.id.search_view);
+        searchview = view.findViewById(R.id.search_view);
 
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -97,6 +100,8 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
             @Override
             public boolean onQueryTextChange(String s) {
 
+                Log.d(TAG, "onQueryTextChange: "+s);
+                subscribeObservers(s);
                 return false;
             }
         });
@@ -143,5 +148,15 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
         mIMainActivity.onMediaSelected(mSelectedMedia);
         mSongViewModel.setCurrentMedia(mSelectedMedia);
 
+        //Clear SearchView
+        searchview.setIconified(true);
+        hideKeyboardFrom(getContext(),view);
+
+
     }
+    public static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 }
