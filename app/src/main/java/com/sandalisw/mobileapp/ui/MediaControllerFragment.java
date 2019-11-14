@@ -24,6 +24,8 @@ public class MediaControllerFragment extends Fragment implements View.OnClickLis
     private TextView msongTitile;
     private ImageView mThumbnail;
     private ImageView mPlayPause;
+    private ImageView mPlayNext;
+    private ImageView mPlayBack;
 
     private IMainActivity mIMainActivity;
 
@@ -44,8 +46,13 @@ public class MediaControllerFragment extends Fragment implements View.OnClickLis
         msongTitile = view.findViewById(R.id.current_song);
         mThumbnail = view.findViewById(R.id.thumbnail);
         mPlayPause = view.findViewById(R.id.playPause);
+        mPlayNext = view.findViewById(R.id.next);
+        mPlayBack = view.findViewById(R.id.previous);
 
         mPlayPause.setOnClickListener(this);
+        mPlayNext.setOnClickListener(this);
+        mPlayBack.setOnClickListener(this);
+
 
     }
 
@@ -53,7 +60,11 @@ public class MediaControllerFragment extends Fragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.playPause){
+            Log.d(TAG, "onClick: Play");
             mIMainActivity.playPause();
+        }else if (v.getId() == R.id.next){
+            Log.d(TAG, "onClick: next");
+            mIMainActivity.skipNext();
         }
     }
 
@@ -72,6 +83,23 @@ public class MediaControllerFragment extends Fragment implements View.OnClickLis
             Log.d(TAG, "setIsPlaying: false");
             Glide.with(getActivity())
                     .load(R.drawable.ic_play)
+                    .into(mPlayPause);
+        }
+    }
+
+    public void setIsNext(boolean isNext){
+        //isNext -> true means play next
+        //isNext -> false means play back
+        if(isNext){
+            Log.d(TAG,"Play Next");
+            Glide.with(getActivity())
+                    .load(R.drawable.ic_next)
+                    .into(mPlayPause);
+
+        }else{
+            Log.d(TAG,"Play back");
+            Glide.with(getActivity())
+                    .load(R.drawable.ic_previous)
                     .into(mPlayPause);
         }
     }

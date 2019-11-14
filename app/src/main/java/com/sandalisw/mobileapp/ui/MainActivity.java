@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
     private TabAdapter tabAdapter;
     private ViewPager viewPager;
     private boolean mIsPlaying;
+    private boolean mIsNext;
 
     private MediaBrowserHelper mMediaBrowserHelper;
     private MediaApplication mMediaApplication;
@@ -119,19 +120,27 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
     }
 
     @Override
+    public void skipNext() {
+        if(mIsNext){
+            mMediaBrowserHelper.getTransportControls().skipToNext();
+        }
+    }
+
+
+    @Override
     public MediaApplication getMyApplication() {
         return  mMediaApplication;
     }
 
 
     @Override
-    public void onMediaSelected(MediaMetadataCompat mediaItem) {
+    public void onMediaSelected(Integer playlistId,MediaMetadataCompat mediaItem) {
         if(findViewById(R.id.seek_bar).getVisibility() != ViewPager.VISIBLE){
             findViewById(R.id.seek_bar).setVisibility(View.VISIBLE);
         }
         if(mediaItem != null){
             setMediadata(mediaItem);
-            //mMediaBrowserHelper.subscribeToPlaylist(playlistId);
+            mMediaBrowserHelper.subscribeToPlaylist(playlistId);
             mMediaBrowserHelper.getTransportControls().playFromMediaId(mediaItem.getDescription().getMediaId(),null);
 
         }else{
@@ -159,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
         mIsPlaying = state != null &&
                 state.getState() == PlaybackStateCompat.STATE_PLAYING;
 
+        mIsNext = state != null &&
+                state.getState() == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT;
         //update UI
         if(getMediaControllerFragment() != null){
             getMediaControllerFragment().setIsPlaying(mIsPlaying);
@@ -166,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
         if(state.getState() == PlaybackStateCompat.STATE_STOPPED){
             getMediaControllerFragment().setIsPlaying(mIsPlaying);
         }
+
 
     }
 

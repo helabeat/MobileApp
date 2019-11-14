@@ -40,8 +40,8 @@ public class MediaBrowserHelper {
         mMediaBrowserHelperCallback = callback;
     }
 
-    public void subscribeToPlaylist(String playlistId){
-
+    public void subscribeToPlaylist(Integer playlistId){
+        mMediaBrowser.subscribe(playlistId.toString(), mSubscriptionCallback);
     }
 
     public void onStart(){

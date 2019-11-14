@@ -134,7 +134,7 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
 
         //adapter should highlight the selected song
         //songAdapter.setSelectedIndex(position);
-        mIMainActivity.onMediaSelected(mSelectedMedia);
+        mIMainActivity.onMediaSelected(category,mSelectedMedia);
     }
 
 }
