@@ -70,6 +70,8 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
         notifyDataSetChanged();
     }
 
+
+
     @Override
     public int getItemCount() {
         if(mData != null){

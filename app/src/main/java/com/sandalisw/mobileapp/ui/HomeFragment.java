@@ -56,7 +56,6 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         mSongViewModel = ViewModelProviders.of(getActivity()).get(SongViewModel.class);
-
         initRecyclerView(view);
         subscribeObservers();
     }
@@ -127,11 +126,7 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
         SharedPreferences sp = this.getActivity().getSharedPreferences("User_Data",MODE_PRIVATE);
         String userId = sp.getString("userId","0");
         mUserViewModel.updateHistory(new Song(mSelectedMedia),userId);
-
-        mSongViewModel.setCurrentMedia(mSelectedMedia);
-
-
-
+        mSongViewModel.setPlaylist(mLibrary);
         //adapter should highlight the selected song
         //songAdapter.setSelectedIndex(position);
         mIMainActivity.onMediaSelected(category,mSelectedMedia);

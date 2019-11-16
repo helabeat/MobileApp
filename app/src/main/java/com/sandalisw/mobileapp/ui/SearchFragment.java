@@ -53,8 +53,9 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mSongViewModel = ViewModelProviders.of(getActivity()).get(SongViewModel.class);
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        mSongViewModel = ViewModelProviders.of(this).get(SongViewModel.class);
+
         initSearchView();
         initRecyclerView(view);
 
@@ -143,7 +144,6 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
         //songAdapter.setSelectedIndex(position);
         mSelectedMedia= mLibrary.get(position);
         mIMainActivity.onMediaSelected(3, mSelectedMedia);
-        mSongViewModel.setCurrentMedia(mSelectedMedia);
 
     }
 }

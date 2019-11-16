@@ -123,10 +123,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
     public void skipNext() {
         Log.d(TAG, "skipNext: "+mIsNext);
         mMediaBrowserHelper.getTransportControls().skipToNext();
-
-//        if(mIsNext){
-//            mMediaBrowserHelper.getTransportControls().skipToNext();
-//        }
     }
 
 
@@ -171,9 +167,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
         mIsPlaying = state != null &&
                 state.getState() == PlaybackStateCompat.STATE_PLAYING;
 
-//        mIsNext = state != null &&
-//                state.getState() == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT;
-//        Log.d(TAG, "onPlaybackStateChanged: "+state.getState());
         //update UI
         if(getMediaControllerFragment() != null){
             getMediaControllerFragment().setIsPlaying(mIsPlaying);

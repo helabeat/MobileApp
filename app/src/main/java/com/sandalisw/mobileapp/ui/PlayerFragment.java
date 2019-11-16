@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.MediaMetadataCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +18,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sandalisw.mobileapp.R;
+import com.sandalisw.mobileapp.adapters.PlaylistItemAdapter;
 import com.sandalisw.mobileapp.viewmodels.SongViewModel;
 
-public class PlayerFragment extends Fragment{
+import java.util.List;
+
+import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
+
+public class PlayerFragment extends Fragment implements PlaylistItemAdapter.PlaylistListener{
+
+    private PlaylistItemAdapter playlistAdapter;
+    private RecyclerView recyclerView;
+    private List<MediaMetadataCompat> songList;
 
     private static final String TAG = "PlayerFragment";
     SongViewModel mSongViewModel;
@@ -32,15 +43,23 @@ public class PlayerFragment extends Fragment{
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        mSongViewModel = ViewModelProviders.of(getActivity()).get(SongViewModel.class);
+
+        initRecyclerView(view);
+        subscribeObservers();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mSongViewModel = ViewModelProviders.of(getActivity()).get(SongViewModel.class);
         mSongViewModel.getCurrentMedia().observe(this, new Observer<MediaMetadataCompat>() {
             @Override
             public void onChanged(@Nullable MediaMetadataCompat mdata) {
                 setView(mdata);
             }
         });
+
     }
 
 
@@ -59,4 +78,31 @@ public class PlayerFragment extends Fragment{
 
     }
 
+    private void initRecyclerView(View view){
+        Log.d(TAG, "initRecyclerView: ");
+        recyclerView = view.findViewById(R.id.playlist);
+        playlistAdapter = new PlaylistItemAdapter(getActivity(),this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(playlistAdapter);
+    }
+
+
+    private void subscribeObservers(){
+        Log.d(TAG, "subscribeObservers: ");
+        mSongViewModel.getPlaylist().observe(this, new Observer<List<MediaMetadataCompat>>() {
+            @Override
+            public void onChanged(@Nullable List<MediaMetadataCompat> songs) {
+                Log.d(TAG, "onChanged: ");
+                playlistAdapter.setDataList(songs);
+                songList = songs;
+
+            }
+        });
+    }
+
+    @Override
+    public void onSongClick(int position) {
+
+    }
 }

@@ -32,8 +32,10 @@
     <TextView
         android:id="@+id/user_preference"
         android:layout_width="0dp"
-        android:layout_weight="75"
         android:layout_height="16dp"
+        android:layout_weight="75"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="Select your preferences"
         android:textAppearance="@style/subtitle" />
 

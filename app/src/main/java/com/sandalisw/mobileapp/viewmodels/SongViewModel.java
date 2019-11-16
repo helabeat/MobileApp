@@ -16,6 +16,7 @@ import java.util.List;
 public class SongViewModel extends ViewModel {
     private static final String TAG = "SongViewModel";
     private MutableLiveData<MediaMetadataCompat> currentMedia = new MutableLiveData<MediaMetadataCompat>();
+    private MutableLiveData<List<MediaMetadataCompat>> mplaylist = new MutableLiveData<>();
 
     private SongRepository mRepository;
 
@@ -31,19 +32,26 @@ public class SongViewModel extends ViewModel {
         return mRepository.searchSongs(s);
     }
 
+    public  LiveData<List<MediaMetadataCompat>> getPlaylist(){
+        Log.d(TAG, "getPlaylist: ");
+        return mplaylist;
+    }
+
+    public void setPlaylist(List<MediaMetadataCompat> data){
+        Log.d(TAG, "setPlaylist: ");
+        mplaylist.setValue(data);
+    }
+
     public LiveData<List<Artist>> getArtists(){
         return mRepository.getArtists();
     }
 
     public void setCurrentMedia(MediaMetadataCompat mData){
-        Log.d(TAG, "setCurrentMedia: "+mData.getDescription().getTitle().toString());
         currentMedia.setValue(mData);
-        Log.d(TAG, "set in getCurrentMedia: "+currentMedia.getValue());
 
     }
 
     public MutableLiveData<MediaMetadataCompat> getCurrentMedia(){
-        Log.d(TAG, "getCurrentMedia: "+currentMedia.getValue());
         return  currentMedia;
     }
 
