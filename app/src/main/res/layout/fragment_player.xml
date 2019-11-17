@@ -77,7 +77,6 @@
             android:text="Up Next"
             android:textAppearance="@style/subtitle"/>
 
-        //this should be implemented when dynamic playlist is added
         <android.support.v7.widget.RecyclerView
             android:id="@+id/playlist"
             android:layout_marginTop="20dp"

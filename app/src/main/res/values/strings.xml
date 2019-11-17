@@ -35,4 +35,12 @@
     </string>
     <string name="agreement">I agree to the terms and conditions</string>
 
+    <!--profile page strings-->
+    <string name="eidtprofile">Edit Profile</string>
+    <string name="notifi">Notifications</string>
+    <string name="prsonlset">Settings</string>
+    <string name="his">History</string>
+    <string name="reset">Reset</string>
+    <string name="logout">Logout</string>
+
 </resources>
