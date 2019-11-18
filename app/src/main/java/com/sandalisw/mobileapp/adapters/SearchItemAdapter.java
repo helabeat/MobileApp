@@ -48,11 +48,6 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
                 .error(R.drawable.ic_launcher_background)
                 .into(((SearchItemViewHolder)viewHolder).thumbnail);
 
-        if(mIndex == i)
-            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.colorPrimary));
-        else
-            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.fontAshDarker));
-
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +56,11 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
                 notifyDataSetChanged();
             }
         });
+
+        if(mIndex == i)
+            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.colorPrimary));
+        else
+            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.fontAshDarker));
     }
 
 

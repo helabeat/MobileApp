@@ -2,6 +2,7 @@ package com.sandalisw.mobileapp.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +23,7 @@ public class PlaylistItemAdapter extends RecyclerView.Adapter<PlaylistItemAdapte
     private PlaylistListener songListener;
     private Context mContext;
     private List<MediaMetadataCompat> mData;
+    private int mIndex;
 
     public PlaylistItemAdapter(Context context, PlaylistListener mSongListener){
         this.mContext = context;
@@ -38,13 +40,24 @@ public class PlaylistItemAdapter extends RecyclerView.Adapter<PlaylistItemAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PlaylistItemViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final PlaylistItemViewHolder viewHolder, int i) {
         viewHolder.song_title.setText(mData.get(i).getDescription().getTitle());
         viewHolder.artist_title.setText(mData.get(i).getDescription().getSubtitle());
         Glide.with(mContext)
                 .load(mData.get(i).getDescription().getIconUri())
                 .error(R.drawable.ic_launcher_background)
-                .into(((PlaylistItemAdapter.PlaylistItemViewHolder)viewHolder).thumbnail);
+                .into(((PlaylistItemViewHolder)viewHolder).thumbnail);
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIndex = viewHolder.getAdapterPosition();
+                songListener.onSongClick(mIndex);
+
+               // notifyDataSetChanged();
+            }
+        });
+
 
     }
 
@@ -68,6 +81,7 @@ public class PlaylistItemAdapter extends RecyclerView.Adapter<PlaylistItemAdapte
         ImageView thumbnail;
         TextView song_title;
         TextView artist_title;
+        ImageView nowPlaying;
 
         PlaylistItemViewHolder(@NonNull View itemView, PlaylistItemAdapter.PlaylistListener listener) {
             super(itemView);
@@ -75,6 +89,7 @@ public class PlaylistItemAdapter extends RecyclerView.Adapter<PlaylistItemAdapte
             thumbnail = itemView.findViewById(R.id.thumbnail);
             song_title = itemView.findViewById(R.id.song_name);
             artist_title = itemView.findViewById(R.id.artist_name);
+            nowPlaying = itemView.findViewById(R.id.options);
             songListener = listener;
         }
 
