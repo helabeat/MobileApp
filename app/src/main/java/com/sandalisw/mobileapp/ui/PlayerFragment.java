@@ -121,9 +121,6 @@ public class PlayerFragment extends Fragment implements PlaylistItemAdapter.Play
         SharedPreferences sp = this.getActivity().getSharedPreferences("User_Data",MODE_PRIVATE);
         String userId = sp.getString("userId","0");
 
-        if(position == -1){
-            mUserViewModel.updateHistory(new Song(s, -1),userId);
-        }
 
         mUserViewModel.updateHistory(new Song(songList.get(position)),userId);
     }
