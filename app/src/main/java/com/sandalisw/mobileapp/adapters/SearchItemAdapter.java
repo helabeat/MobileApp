@@ -70,6 +70,11 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
         notifyDataSetChanged();
     }
 
+    public void clearDataList() {
+        int size = mData.size();
+        mData.clear();
+        notifyItemRangeRemoved(0, size);
+    }
 
 
     @Override

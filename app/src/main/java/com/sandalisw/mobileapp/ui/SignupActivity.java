@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sandalisw.mobileapp.R;
@@ -23,6 +24,7 @@ public class SignupActivity extends AppCompatActivity {
     private EditText input_password;
     private RadioGroup input_gender;
     private Button input_signup_button;
+    private TextView login_link;
 
     String gender;
     User user;
@@ -39,6 +41,7 @@ public class SignupActivity extends AppCompatActivity {
         input_password = (EditText) findViewById(R.id.input_password);
         input_gender = findViewById(R.id.input_gender);
         input_signup_button = findViewById(R.id.btn_signup);
+        login_link = findViewById(R.id.link_login);
 
         input_gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -53,6 +56,13 @@ public class SignupActivity extends AppCompatActivity {
                         gender = "female";
                         break;
                 }
+            }
+        });
+
+        login_link.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Login feature is not available.Please sign up", Toast.LENGTH_LONG).show();
             }
         });
 
