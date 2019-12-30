@@ -143,7 +143,7 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
         //adapter should highlight the selected song
         //songAdapter.setSelectedIndex(position);
         mSelectedMedia= mLibrary.get(position);
-        mIMainActivity.onMediaSelected(3, mSelectedMedia);
+        mIMainActivity.onMediaSelected(3, mSelectedMedia,position);
 
         mSongViewModel.setPlaylist(mLibrary);
 

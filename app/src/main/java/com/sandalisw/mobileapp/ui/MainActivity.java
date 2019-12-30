@@ -24,6 +24,8 @@ import com.sandalisw.mobileapp.client.MediaBrowserHelper;
 import com.sandalisw.mobileapp.client.MediaBrowserHelperCallback;
 import com.sandalisw.mobileapp.services.MediaService;
 
+import static com.sandalisw.mobileapp.utils.Constants.MEDIA_QUEUE_POSITION;
+
 
 public class MainActivity extends AppCompatActivity implements IMainActivity, MediaBrowserHelperCallback {
 
@@ -133,14 +135,16 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
 
 
     @Override
-    public void onMediaSelected(Integer playlistId,MediaMetadataCompat mediaItem) {
+    public void onMediaSelected(Integer playlistId,MediaMetadataCompat mediaItem, int queue_position) {
         if(findViewById(R.id.seek_bar).getVisibility() != ViewPager.VISIBLE){
             findViewById(R.id.seek_bar).setVisibility(View.VISIBLE);
         }
         if(mediaItem != null){
+            Bundle bundle = new Bundle();
+            bundle.putInt(MEDIA_QUEUE_POSITION,queue_position);
             setMediadata(mediaItem);
             mMediaBrowserHelper.subscribeToPlaylist(playlistId);
-            mMediaBrowserHelper.getTransportControls().playFromMediaId(mediaItem.getDescription().getMediaId(),null);
+            mMediaBrowserHelper.getTransportControls().playFromMediaId(mediaItem.getDescription().getMediaId(),bundle);
 
         }else{
             Toast.makeText(this,"Select Something to play",Toast.LENGTH_SHORT).show();

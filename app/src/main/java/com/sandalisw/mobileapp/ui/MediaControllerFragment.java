@@ -99,7 +99,7 @@ public class MediaControllerFragment extends Fragment implements View.OnClickLis
                 .error(R.drawable.ic_launcher_background)
                 .into(mThumbnail);
         mSongViewModel.setCurrentMedia(mediaItem);
-
+        mSongViewModel.toString().equals("mSongViewModel");
     }
 
     @Override

@@ -14,7 +14,7 @@ public interface IMainActivity {
 
     MediaApplication getMyApplication();
 
-    void onMediaSelected(Integer playlistId,MediaMetadataCompat mediaItem);
+    void onMediaSelected(Integer playlistId,MediaMetadataCompat mediaItem, int queue_position);
 
     void setMediadata(MediaMetadataCompat mData);
 

@@ -133,7 +133,7 @@ public class PlayerFragment extends Fragment implements PlaylistItemAdapter.Play
         //adapter should highlight the selected song
         //songAdapter.setSelectedIndex(position);
         mSelectedMedia= songList.get(position);
-        mIMainActivity.onMediaSelected(4, mSelectedMedia);
+        mIMainActivity.onMediaSelected(4, mSelectedMedia,position);
 
     }
 }
