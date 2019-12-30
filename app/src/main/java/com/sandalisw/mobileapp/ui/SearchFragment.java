@@ -43,7 +43,7 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
     private List<Song> dataList;
     private IMainActivity mIMainActivity;
     private MediaMetadataCompat mSelectedMedia;
-    private SearchView searchview;
+    //private SearchView searchview;
     private List<MediaMetadataCompat> mLibrary = new ArrayList<>();
 
 
@@ -88,7 +88,7 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
         });
     }
     private void initSearchView(){
-        searchview = view.findViewById(R.id.search_view);
+        final SearchView searchview = view.findViewById(R.id.search_view);
 
         searchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -110,6 +110,7 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
 
     private void addToMediaLibrary(List<Song> songs){
         mLibrary.clear();
+        Log.d(TAG, "addToMediaLibrary: "+mLibrary.size());
         for(Song song : songs) {
             MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
                     .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
@@ -147,6 +148,7 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
         mIMainActivity.getMyApplication().setMediaItems(mLibrary);
         //adapter should highlight the selected song
         //songAdapter.setSelectedIndex(position);
+        Log.d(TAG, "onSongClick: search"+position);
         mSelectedMedia= mLibrary.get(position);
         mIMainActivity.onMediaSelected(3, mSelectedMedia,position);
 
@@ -154,7 +156,7 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
 
 
         //Clear SearchView
-        searchview.setIconified(true);
+        //searchview.setIconified(true);
         hideKeyboardFrom(getContext(),view);
 
 

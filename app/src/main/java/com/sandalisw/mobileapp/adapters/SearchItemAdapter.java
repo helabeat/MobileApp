@@ -23,7 +23,6 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
     private Context mContext;
     private SongResultSelection songListener;
     private List<Song> mData;
-    private int mIndex=-1;
 
     public SearchItemAdapter(Context context, SongResultSelection mSongListener){
         this.mContext = context;
@@ -41,6 +40,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
 
     @Override
     public void onBindViewHolder(@NonNull final SearchItemViewHolder viewHolder, int i) {
+        final int mClickedPosition = i;
         viewHolder.song_title.setText(mData.get(i).getTitle());
         viewHolder.artist_title.setText(mData.get(i).getArtist());
         Glide.with(mContext)
@@ -51,16 +51,21 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mIndex = viewHolder.getAdapterPosition();
+                int mIndex = viewHolder.getAdapterPosition();
                 songListener.onSongClick(mIndex);
+                Log.d(TAG, "onClick: "+mIndex+"and"+mClickedPosition);
                 notifyDataSetChanged();
             }
-        });
 
-        if(mIndex == i)
-            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.colorPrimary));
-        else
-            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.fontAshDarker));
+        });
+//        if(mIndex == mClickedPosition) {
+//            Log.d(TAG, "onClick: true");
+//            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+//        }else{
+//            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.fontAshDarker));
+//        }
+
+
     }
 
 
@@ -91,7 +96,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
         TextView song_title;
         TextView artist_title;
 
-         SearchItemViewHolder(@NonNull View itemView, SongResultSelection listener) {
+        SearchItemViewHolder(@NonNull View itemView, SongResultSelection listener) {
             super(itemView);
 
             thumbnail = itemView.findViewById(R.id.thumbnail);
