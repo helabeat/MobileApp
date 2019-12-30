@@ -43,7 +43,9 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
     private MediaMetadataCompat mSelectedMedia;
     private SongViewModel mSongViewModel;
     private UserViewModel mUserViewModel;
-    private List<MediaMetadataCompat> mLibrary = new ArrayList<>();
+    private List<MediaMetadataCompat> mClassicLibrary = new ArrayList<>();
+    private List<MediaMetadataCompat> mNewLibrary = new ArrayList<>();
+
 
 
     @Nullable
@@ -56,7 +58,6 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         mSongViewModel = ViewModelProviders.of(getActivity()).get(SongViewModel.class);
-
         initRecyclerView(view);
         subscribeObservers();
     }
@@ -82,8 +83,8 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
             @Override
             public void onChanged(@Nullable TopSongsResponse mData) {
                 //this logic should be changed
-                addtolibrary(mData.getRecent_songs());
-                addtolibrary(mData.getOld_songs());
+                addtolibrary(mData.getRecent_songs(),1);
+                addtolibrary(mData.getOld_songs(),2);
                 //
                 songAdapter_recent.setDataList(mData.getRecent_songs());
                 songAdapter_old.setDataList(mData.getOld_songs());
@@ -91,17 +92,31 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
         });
     }
 
-    public void addtolibrary(List<Song> sg){
-        Log.d(TAG, "addtolibrary: "+sg.size());
-        for(Song song : sg){
-            MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
-                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
-                    .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,song.getTitle())
-                    .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE,song.getArtist())
-                    .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,song.getThumbnailUrl())
-                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, song.getSong_url())
-                    .build();
-            mLibrary.add(mData);
+    public void addtolibrary(List<Song> sg, int category){
+        if(category == 1){
+            mNewLibrary.clear();
+            for(Song song : sg){
+                MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
+                        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,song.getTitle())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE,song.getArtist())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,song.getThumbnailUrl())
+                        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, song.getSong_url())
+                        .build();
+                mNewLibrary.add(mData);
+            }
+        }else{
+            mClassicLibrary.clear();
+            for(Song song : sg){
+                MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
+                        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,song.getTitle())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE,song.getArtist())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,song.getThumbnailUrl())
+                        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, song.getSong_url())
+                        .build();
+                mClassicLibrary.add(mData);
+            }
         }
 
 
@@ -116,25 +131,25 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
 
     @Override
     public void onSongClick(int position, int category) {
-        Log.d(TAG, "onSongClick: clicked");
+        Log.d(TAG, "onSongClick: clicked"+category+"-" + position);
         if (category == 1) {
-            mSelectedMedia = mLibrary.get(position);
+            mSelectedMedia = mNewLibrary.get(position);
+            mIMainActivity.getMyApplication().setMediaItems(mNewLibrary);
+            mSongViewModel.setPlaylist(mNewLibrary);
+
         }else{
-            mSelectedMedia = mLibrary.get((position+10));
+            mSelectedMedia = mClassicLibrary.get((position));
+            mIMainActivity.getMyApplication().setMediaItems(mClassicLibrary);
+            mSongViewModel.setPlaylist(mClassicLibrary);
+
         }
-        mIMainActivity.getMyApplication().setMediaItems(mLibrary);
 
         SharedPreferences sp = this.getActivity().getSharedPreferences("User_Data",MODE_PRIVATE);
         String userId = sp.getString("userId","0");
         mUserViewModel.updateHistory(new Song(mSelectedMedia),userId);
-
-        mSongViewModel.setCurrentMedia(mSelectedMedia);
-
-
-
         //adapter should highlight the selected song
         //songAdapter.setSelectedIndex(position);
-        mIMainActivity.onMediaSelected(mSelectedMedia);
+        mIMainActivity.onMediaSelected(category,mSelectedMedia,position);
     }
 
 }

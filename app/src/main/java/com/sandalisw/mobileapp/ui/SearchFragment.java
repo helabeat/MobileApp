@@ -56,8 +56,9 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mSongViewModel = ViewModelProviders.of(getActivity()).get(SongViewModel.class);
         mUserViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        mSongViewModel = ViewModelProviders.of(getActivity()).get(SongViewModel.class);
+
         initSearchView();
         initRecyclerView(view);
 
@@ -107,16 +108,18 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
         });
     }
 
-    private void addToMediaLibrary(Song song){
+    private void addToMediaLibrary(List<Song> songs){
         mLibrary.clear();
-        MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
-                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
-                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,song.getTitle())
-                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE,song.getArtist())
-                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,song.getThumbnailUrl())
-                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, song.getSong_url())
-                .build();
-        mLibrary.add(mData);
+        for(Song song : songs) {
+            MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
+                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
+                    .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, song.getTitle())
+                    .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, song.getArtist())
+                    .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI, song.getThumbnailUrl())
+                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, song.getSong_url())
+                    .build();
+            mLibrary.add(mData);
+        }
     }
 
     @Override
@@ -140,13 +143,15 @@ public class SearchFragment extends Fragment implements SearchItemAdapter.SongRe
     public void onSongClick(int position) {
         updateHistory(position,"");
 
-        addToMediaLibrary(dataList.get(position));
+        addToMediaLibrary(dataList);
         mIMainActivity.getMyApplication().setMediaItems(mLibrary);
         //adapter should highlight the selected song
         //songAdapter.setSelectedIndex(position);
-        mSelectedMedia= mLibrary.get(0);
-        mIMainActivity.onMediaSelected(mSelectedMedia);
-        mSongViewModel.setCurrentMedia(mSelectedMedia);
+        mSelectedMedia= mLibrary.get(position);
+        mIMainActivity.onMediaSelected(3, mSelectedMedia,position);
+
+        mSongViewModel.setPlaylist(mLibrary);
+
 
         //Clear SearchView
         searchview.setIconified(true);

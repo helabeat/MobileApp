@@ -14,17 +14,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.sandalisw.mobileapp.MediaApplication;
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.adapters.TabAdapter;
 import com.sandalisw.mobileapp.client.MediaBrowserHelper;
 import com.sandalisw.mobileapp.client.MediaBrowserHelperCallback;
 import com.sandalisw.mobileapp.services.MediaService;
+
+import static com.sandalisw.mobileapp.utils.Constants.MEDIA_QUEUE_POSITION;
 
 
 public class MainActivity extends AppCompatActivity implements IMainActivity, MediaBrowserHelperCallback {
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
     private TabAdapter tabAdapter;
     private ViewPager viewPager;
     private boolean mIsPlaying;
+    private boolean mIsNext;
 
     private MediaBrowserHelper mMediaBrowserHelper;
     private MediaApplication mMediaApplication;
@@ -121,20 +122,29 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
     }
 
     @Override
+    public void skipNext() {
+        Log.d(TAG, "skipNext: "+mIsNext);
+        mMediaBrowserHelper.getTransportControls().skipToNext();
+    }
+
+
+    @Override
     public MediaApplication getMyApplication() {
         return  mMediaApplication;
     }
 
 
     @Override
-    public void onMediaSelected(MediaMetadataCompat mediaItem) {
+    public void onMediaSelected(Integer playlistId,MediaMetadataCompat mediaItem, int queue_position) {
         if(findViewById(R.id.seek_bar).getVisibility() != ViewPager.VISIBLE){
             findViewById(R.id.seek_bar).setVisibility(View.VISIBLE);
         }
         if(mediaItem != null){
+            Bundle bundle = new Bundle();
+            bundle.putInt(MEDIA_QUEUE_POSITION,queue_position);
             setMediadata(mediaItem);
-            //mMediaBrowserHelper.subscribeToPlaylist(playlistId);
-            mMediaBrowserHelper.getTransportControls().playFromMediaId(mediaItem.getDescription().getMediaId(),null);
+            mMediaBrowserHelper.subscribeToPlaylist(playlistId);
+            mMediaBrowserHelper.getTransportControls().playFromMediaId(mediaItem.getDescription().getMediaId(),bundle);
 
         }else{
             Toast.makeText(this,"Select Something to play",Toast.LENGTH_SHORT).show();
@@ -146,21 +156,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
         Log.d(TAG, "setMediadata: "+mData.getDescription().getTitle());
         mediaMetadata = mData;
     }
-
-    @Override
-    public MediaMetadataCompat getMediaData() {
-        if(mediaMetadata == null){
-            Log.d(TAG, "getMediaData: null data");
-            mediaMetadata = new MediaMetadataCompat.Builder()
-                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, "aut porro officiis laborum odit ea laudantium corporis")
-                    .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,"xxxxxxxxxx x")
-                    .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,"https://i.redd.it/obx4zydshg601.jpg")
-                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI,"https://via.placeholder.com/600/54176f" )
-                    .build();
-        }
-        return mediaMetadata;
-    }
-
 
     @Override
     public void onMetaDataChanged(MediaMetadataCompat metaData) {
@@ -183,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
         if(state.getState() == PlaybackStateCompat.STATE_STOPPED){
             getMediaControllerFragment().setIsPlaying(mIsPlaying);
         }
+
 
     }
 

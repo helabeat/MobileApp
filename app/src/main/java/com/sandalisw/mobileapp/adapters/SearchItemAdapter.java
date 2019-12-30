@@ -41,18 +41,12 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
 
     @Override
     public void onBindViewHolder(@NonNull final SearchItemViewHolder viewHolder, int i) {
-        Log.d(TAG, "onBindViewHolder: "+ mData.get(i).getArtist());
         viewHolder.song_title.setText(mData.get(i).getTitle());
         viewHolder.artist_title.setText(mData.get(i).getArtist());
         Glide.with(mContext)
                 .load(mData.get(i).getThumbnailUrl())
                 .error(R.drawable.ic_launcher_background)
                 .into(((SearchItemViewHolder)viewHolder).thumbnail);
-
-        if(mIndex == i)
-            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.colorPrimary));
-        else
-            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.fontAshDarker));
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +56,11 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
                 notifyDataSetChanged();
             }
         });
+
+        if(mIndex == i)
+            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.colorPrimary));
+        else
+            viewHolder.song_title.setTextColor(ContextCompat.getColor(mContext,R.color.fontAshDarker));
     }
 
 
@@ -76,6 +75,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Se
         mData.clear();
         notifyItemRangeRemoved(0, size);
     }
+
 
     @Override
     public int getItemCount() {
