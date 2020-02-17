@@ -59,12 +59,13 @@ public class GenresActivity extends AppCompatActivity {
     }
 
     private void registerUser(){
-        mViewModel.registerUser(user).observe(this, new Observer<String>() {
+        mViewModel.registerUser(user).observe(this, new Observer<String[]>() {
             @Override
-            public void onChanged(@Nullable String s) {
+            public void onChanged(@Nullable String[] s) {
                 if(!s.equals("0")){
                     sp = getSharedPreferences("User_Data",MODE_PRIVATE);
-                    sp.edit().putString("userId",s).apply();
+                    sp.edit().putString("userId",s[0]).apply();
+                    sp.edit().putString("currentId",s[1]).apply();
                     sp.edit().putBoolean("loggedIn",true).apply();
                     Log.d(TAG, "onChanged: loggedin"+sp.getBoolean("loggedIn",false));
                     Intent nextActivity = new Intent(GenresActivity.this, MainActivity.class);

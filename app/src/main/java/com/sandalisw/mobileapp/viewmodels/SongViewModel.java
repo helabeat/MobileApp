@@ -24,8 +24,8 @@ public class SongViewModel extends ViewModel {
         mRepository = SongRepository.getInstance();
     }
 
-    public LiveData<TopSongsResponse> getSongs(){
-        return mRepository.getSongs();
+    public LiveData<TopSongsResponse> getSongs(String current_id){
+        return mRepository.getSongs(current_id);
     }
 
     public LiveData<List<Song>> searchSong(String s){
@@ -53,6 +53,10 @@ public class SongViewModel extends ViewModel {
 
     public MutableLiveData<MediaMetadataCompat> getCurrentMedia(){
         return  currentMedia;
+    }
+
+    public LiveData<List<Song>> getRecommendations(String song_id) {
+        return mRepository.getRecommendations(song_id);
     }
 
 }

@@ -3,14 +3,13 @@ package com.sandalisw.mobileapp.requests;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
-import android.os.Handler;
-import android.provider.SyncStateContract;
 import android.util.Log;
 
 
 import com.sandalisw.mobileapp.models.Artist;
 import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
+import com.sandalisw.mobileapp.requests.responses.PlaylistResponse;
 import com.sandalisw.mobileapp.requests.responses.TopSongsResponse;
 
 
@@ -44,8 +43,14 @@ public class RequestApiClient {
         return instance;
     }
 
-    public LiveData<TopSongsResponse> getSongs(){
-        getAllSongs();
+    public LiveData<List<Song>> getRecommendations(String song_id) {
+        Log.d(TAG, "getRecommendations: ");
+        getPlaylists(song_id);
+        return mSearchResults;
+    }
+
+    public LiveData<TopSongsResponse> getSongs(String current_id){
+        getAllSongs(current_id);
         return mSongs;
     }
 
@@ -87,13 +92,13 @@ public class RequestApiClient {
         });
     }
 
-    private void getAllSongs(){
-        Call<TopSongsResponse> call= ServiceGenerator.getRequestApi().getAllSongs();
+    private void getAllSongs(String current_id){
+        Call<TopSongsResponse> call= ServiceGenerator.getRequestApi().getAllSongs(current_id);
 
         call.enqueue(new Callback<TopSongsResponse>() {
             @Override
             public void onResponse(Call<TopSongsResponse> call, Response<TopSongsResponse> response) {
-                Log.d(TAG, "onResponse: "+response.body().getRecent_songs().size());
+                Log.d(TAG, "onResponse: "+response.body().getPlaylist_songs().size());
 
                 mSongs.setValue(response.body());
                 Log.d(TAG, "onResponse: "+response.body().toString());
@@ -143,8 +148,26 @@ public class RequestApiClient {
                 Log.d(TAG, "onFailure: "+t.toString());
             }
         });
+    }
 
+    private void getPlaylists(String song_id){
+        Log.d(TAG, "getPlaylist: called");
+        Call<PlaylistResponse> call = ServiceGenerator.getRequestApi().getPlaylist(song_id);
 
+        call.enqueue(new Callback<PlaylistResponse>() {
+            @Override
+            public void onResponse(Call<PlaylistResponse> call, Response<PlaylistResponse> response) {
+                Log.d(TAG, "C");
+                Log.d(TAG, "run: "+response.body().getSongs());
+                mSearchResults.setValue(response.body().getSongs());
+            }
+
+            @Override
+            public void onFailure(Call<PlaylistResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.toString());
+            }
+        });
+        Log.d(TAG, "getPlaylists: "+call.isExecuted());
     }
 
 }

@@ -24,7 +24,7 @@ public class UserRepository {
         return instance;
     }
 
-    public LiveData<String> registerUser(User user, List<String> mSelectedArtists, List<String> mSelectedGenres) {
+    public LiveData<String[]> registerUser(User user, List<String> mSelectedArtists, List<String> mSelectedGenres) {
         return mApiClient.registerUser(user,mSelectedArtists,mSelectedGenres);
     }
 

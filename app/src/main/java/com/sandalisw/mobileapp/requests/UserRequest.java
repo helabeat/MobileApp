@@ -5,9 +5,12 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -27,10 +30,13 @@ public class UserRequest {
     private static final String TAG = "UserRequest";
     private static UserRequest instance;
     private String userID;
-    private MutableLiveData<String> isRegistered;
+    private Integer current_id = 10005;
+    private String isRegistered = "0";
+
+    private  MutableLiveData<String[]> answer;
 
     public UserRequest() {
-        this.isRegistered = new MutableLiveData<>();
+        this.answer = new MutableLiveData<>();
     }
 
     private FirebaseFirestore getFIreStore(){
@@ -50,18 +56,23 @@ public class UserRequest {
         return instance;
     }
 
-    public LiveData<String> registerUser(User user, List<String> mSelectedArtists, List<String> mSelectedGenres){
+    public LiveData<String[]> registerUser(User user, List<String> mSelectedArtists, List<String> mSelectedGenres){
         registration(user,mSelectedArtists,mSelectedGenres);
         Log.d(TAG, "registerUser: "+isRegistered);
-        return  isRegistered;
+        String[] d = new String[2];
+        d[0] = isRegistered;
+        d[1] = current_id.toString();
+        answer.setValue(d);
+        return  answer;
     }
 
     private void registration(User user, List<String> mSelectedArtists, List<String> mSelectedGenres){
-        FirebaseFirestore db = getFIreStore();
 
+        FirebaseFirestore db = getFIreStore();
 
         Map<String, Object> ob = new HashMap<>();
         ob.put("name", user.getUsername());
+        ob.put("current_id", (current_id+1));
         ob.put("email", user.getEmail());
         ob.put("age", user.getAge());
         ob.put("gender",user.getGender());
@@ -77,14 +88,14 @@ public class UserRequest {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                         userID =documentReference.getId();
-                        isRegistered.setValue(userID);
+                        isRegistered = userID;
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error adding document", e);
-                        isRegistered.setValue("0");
+                        isRegistered = "0";
                     }
                 });
 

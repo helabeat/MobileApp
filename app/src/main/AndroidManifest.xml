@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_main_logo"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.Design.Light.NoActionBar">
+        android:theme="@style/Theme.Design.Light.NoActionBar"
+        android:networkSecurityConfig="@xml/network_security_config"
+        >
         <activity
             android:name=".ui.ConsentActivity"
             android:label="@string/title_activity_consent"

@@ -4,6 +4,7 @@ package com.sandalisw.mobileapp.requests;
 import com.sandalisw.mobileapp.models.Artist;
 import com.sandalisw.mobileapp.models.Song;
 import com.sandalisw.mobileapp.models.User;
+import com.sandalisw.mobileapp.requests.responses.PlaylistResponse;
 import com.sandalisw.mobileapp.requests.responses.TopSongsResponse;
 
 import java.util.List;
@@ -18,7 +19,9 @@ import retrofit2.http.Query;
 public interface RequestApi {
 
     @GET("/songs/topsongs")
-    Call<TopSongsResponse> getAllSongs();
+    Call<TopSongsResponse> getAllSongs(
+            @Query("q") String current_id
+    );
 
     @POST("/user")
     @Headers({"Content-Type: application/json;charset=UTF-8"})
@@ -33,6 +36,13 @@ public interface RequestApi {
     Call<List<Song>> searchSongs(
             @Query("q") String query
     );
+
+    @GET("recommend/recommendForSession")
+    Call<PlaylistResponse> getPlaylist(
+            @Query("q") String song_id
+    ) ;
+
+
 
 
 }

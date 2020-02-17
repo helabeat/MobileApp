@@ -18,7 +18,7 @@ public class UserViewModel extends ViewModel {
 
     }
 
-    public LiveData<String> registerUser(User mUser) {
+    public LiveData<String[]> registerUser(User mUser) {
         Log.d(TAG, "registerUser: "+mUser.toString());
         return mRepository.registerUser(mUser,mUser.getArtist_preference(),mUser.getGenre_preference());
     }

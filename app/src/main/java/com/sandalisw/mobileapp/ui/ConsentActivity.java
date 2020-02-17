@@ -39,20 +39,5 @@ public class ConsentActivity extends AppCompatActivity {
     }
 
 
-    public void onAgreement(View view) {
-        // Is the view now checked?
-        boolean checked = ((CheckBox) view).isChecked();
 
-
-        switch (view.getId()) {
-            case R.id.agreed:
-                if (checked)
-                    button.setEnabled(true);
-                else
-                    button.setEnabled(false);
-                break;
-
-        }
-
-    }
 }

@@ -15,6 +15,23 @@ public class TopSongsResponse {
     @Expose()
     private List<Song> old_songs;
 
+
+    @SerializedName("playlist")
+    @Expose()
+    private List<Song> playlist_songs;
+
+    @SerializedName("suggestion")
+    @Expose()
+    private List<Song> suggested_songs;
+
+    public List<Song> getPlaylist_songs() {
+        return playlist_songs;
+    }
+
+    public void setPlaylist_songs(List<Song> playlist_songs) {
+        this.playlist_songs = playlist_songs;
+    }
+
     public List<Song> getRecent_songs() {
         return recent_songs;
     }
@@ -32,7 +49,11 @@ public class TopSongsResponse {
     }
 
 
+    public List<Song> getSuggested_songs() {
+        return suggested_songs;
+    }
 
-
-
+    public void setSuggested_songs(List<Song> suggested_songs) {
+        this.suggested_songs = suggested_songs;
+    }
 }

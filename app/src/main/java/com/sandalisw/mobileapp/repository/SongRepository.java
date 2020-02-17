@@ -9,7 +9,6 @@ import com.sandalisw.mobileapp.models.User;
 import com.sandalisw.mobileapp.requests.RequestApiClient;
 import com.sandalisw.mobileapp.requests.responses.TopSongsResponse;
 
-import java.io.IOException;
 import java.util.List;
 
 public class SongRepository {
@@ -27,8 +26,8 @@ public class SongRepository {
         return instance;
     }
 
-    public LiveData<TopSongsResponse> getSongs(){
-        return mApiClient.getSongs();
+    public LiveData<TopSongsResponse> getSongs(String current_id){
+        return mApiClient.getSongs(current_id);
     }
 
     public LiveData<Boolean> registerUser(Context context, User user)  {
@@ -41,5 +40,9 @@ public class SongRepository {
 
     public LiveData<List<Song>> searchSongs(String s) {
         return mApiClient.searchSongs(s);
+    }
+
+    public LiveData<List<Song>> getRecommendations(String song_id) {
+        return mApiClient.getRecommendations(song_id);
     }
 }

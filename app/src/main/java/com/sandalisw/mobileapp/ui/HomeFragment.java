@@ -35,9 +35,13 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
 
     private RecentSongAdapter songAdapter_recent;
     private RecentSongAdapter songAdapter_old;
+    private RecentSongAdapter songAdapter_suggested;
+    private RecentSongAdapter songAdapter_playlist;
 
     private RecyclerView recyclerView_recent;
     private RecyclerView recyclerView_old;
+    private  RecyclerView recyclerView_suggested;
+    private RecyclerView recyclerView_playlist;
 
     private IMainActivity mIMainActivity;
     private MediaMetadataCompat mSelectedMedia;
@@ -45,6 +49,8 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
     private UserViewModel mUserViewModel;
     private List<MediaMetadataCompat> mClassicLibrary = new ArrayList<>();
     private List<MediaMetadataCompat> mNewLibrary = new ArrayList<>();
+    private List<MediaMetadataCompat> mSuggestedLibrary = new ArrayList<>();
+    private List<MediaMetadataCompat> mPlaylistLibrary = new ArrayList<>();
 
 
 
@@ -63,6 +69,19 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
     }
 
     private void initRecyclerView(View view){
+        recyclerView_suggested = view.findViewById(R.id.new_songs_recyclerview);
+        songAdapter_suggested = new RecentSongAdapter(getActivity(),this,3);
+        LinearLayoutManager layoutManager3 = new LinearLayoutManager(getActivity(),HORIZONTAL,false);
+        recyclerView_suggested.setLayoutManager(layoutManager3);
+        recyclerView_suggested.setAdapter(songAdapter_suggested);
+
+        recyclerView_playlist = view.findViewById(R.id.weekly_pl_recyclerview);
+        songAdapter_playlist = new RecentSongAdapter(getActivity(),this,4);
+        LinearLayoutManager layoutManager4 = new LinearLayoutManager(getActivity(),HORIZONTAL,false);
+        recyclerView_playlist.setLayoutManager(layoutManager4);
+        recyclerView_playlist.setAdapter(songAdapter_playlist);
+
+
         recyclerView_recent = view.findViewById(R.id.recent_songs_recyclerview);
         songAdapter_recent = new RecentSongAdapter(getActivity(),this,1);
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity(), HORIZONTAL, false);
@@ -78,16 +97,23 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
     }
 
     private void subscribeObservers(){
-        mSongViewModel.getSongs().observe(this,new Observer<TopSongsResponse>(){
+        SharedPreferences sp = this.getActivity().getSharedPreferences("User_Data",MODE_PRIVATE);
+        String cid = sp.getString("currentId","0");
+
+        mSongViewModel.getSongs(cid).observe(this,new Observer<TopSongsResponse>(){
 
             @Override
             public void onChanged(@Nullable TopSongsResponse mData) {
                 //this logic should be changed
                 addtolibrary(mData.getRecent_songs(),1);
                 addtolibrary(mData.getOld_songs(),2);
+                addtolibrary(mData.getSuggested_songs(),3);
+                addtolibrary(mData.getPlaylist_songs(),4);
                 //
                 songAdapter_recent.setDataList(mData.getRecent_songs());
                 songAdapter_old.setDataList(mData.getOld_songs());
+                songAdapter_suggested.setDataList(mData.getSuggested_songs());
+                songAdapter_playlist.setDataList(mData.getPlaylist_songs());
             }
         });
     }
@@ -105,7 +131,7 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
                         .build();
                 mNewLibrary.add(mData);
             }
-        }else{
+        }else if (category == 2){
             mClassicLibrary.clear();
             for(Song song : sg){
                 MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
@@ -117,7 +143,32 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
                         .build();
                 mClassicLibrary.add(mData);
             }
+        }else if (category == 3){
+            mSuggestedLibrary.clear();
+            for(Song song : sg){
+                MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
+                        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,song.getTitle())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE,song.getArtist())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,song.getThumbnailUrl())
+                        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, song.getSong_url())
+                        .build();
+                mSuggestedLibrary.add(mData);
+            }
+        }else{
+            mPlaylistLibrary.clear();
+            for(Song song : sg){
+                MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
+                        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,song.getTitle())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE,song.getArtist())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,song.getThumbnailUrl())
+                        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, song.getSong_url())
+                        .build();
+                mPlaylistLibrary.add(mData);
+            }
         }
+
 
 
     }
@@ -137,15 +188,25 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
             mIMainActivity.getMyApplication().setMediaItems(mNewLibrary);
             mSongViewModel.setPlaylist(mNewLibrary);
 
-        }else{
+        }else if(category == 2) {
             mSelectedMedia = mClassicLibrary.get((position));
             mIMainActivity.getMyApplication().setMediaItems(mClassicLibrary);
             mSongViewModel.setPlaylist(mClassicLibrary);
+        }else if(category == 3){
+            mSelectedMedia = mSuggestedLibrary.get((position));
+            mIMainActivity.getMyApplication().setMediaItems(mSuggestedLibrary);
+            mSongViewModel.setPlaylist(mSuggestedLibrary);
+        }else{
+            mSelectedMedia = mPlaylistLibrary.get((position));
+            mIMainActivity.getMyApplication().setMediaItems(mPlaylistLibrary);
+            mSongViewModel.setPlaylist(mPlaylistLibrary);
 
         }
 
         SharedPreferences sp = this.getActivity().getSharedPreferences("User_Data",MODE_PRIVATE);
         String userId = sp.getString("userId","0");
+        String cid = sp.getString("currentId","0");
+        Log.d(TAG, "onSongClick: "+cid + userId);
         mUserViewModel.updateHistory(new Song(mSelectedMedia),userId);
         //adapter should highlight the selected song
         //songAdapter.setSelectedIndex(position);
