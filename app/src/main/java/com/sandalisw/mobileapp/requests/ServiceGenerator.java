@@ -9,9 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //Retrofit Client Instance
 public class ServiceGenerator {
 
-    // private static final String URL = "http://ec2-18-139-140-235.ap-southeast-1.compute.amazonaws.com:3000";
+    private static final String URL = "http://ec2-18-139-140-235.ap-southeast-1.compute.amazonaws.com:3000";
 
-    private static final String URL = "http://10.0.2.2:3000";
+    // private static final String URL = "http://192.168.1.101:3000";
 
 
     private static Retrofit.Builder retrofitBuilder = new Retrofit.Builder().baseUrl(URL)

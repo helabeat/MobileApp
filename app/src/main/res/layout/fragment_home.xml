@@ -29,12 +29,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <!--//news artists-->
+
+            <!--//Top recommendations-->
             <TextView
                 android:id="@+id/new_pl"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
-                android:text="Recently played"
+                android:text="Top Recommendations"
                 android:layout_below="@+id/title_bar"
                 android:textAppearance="@style/subtitle"
                 android:gravity="center_vertical"
@@ -50,7 +51,6 @@
                 android:layout_below="@+id/new_pl">
 
             </android.support.v7.widget.RecyclerView>
-
             <!--//Weekly playlist-->
             <TextView
                 android:id="@+id/weekly_pl"
