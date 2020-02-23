@@ -45,7 +45,7 @@ public class RecentSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         Glide.with(mContext)
                 .load(dataList.get(i).getThumbnailUrl())
-                .error(R.drawable.ic_launcher_background)
+                .error(R.drawable.defaultsong)
                 .into(((RecentSongViewHolder)viewHolder).thumbnail);
         ((RecentSongViewHolder)viewHolder).song_title.setText(dataList.get(i).getTitle());
         ((RecentSongViewHolder)viewHolder).artist_title.setText(dataList.get(i).getArtist());

@@ -19,7 +19,9 @@ import android.view.ViewGroup;
 import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.adapters.RecentSongAdapter;
 import com.sandalisw.mobileapp.models.Song;
+import com.sandalisw.mobileapp.models.SongR;
 import com.sandalisw.mobileapp.requests.responses.TopSongsResponse;
+import com.sandalisw.mobileapp.room.AccessRoomData;
 import com.sandalisw.mobileapp.viewmodels.SongViewModel;
 import com.sandalisw.mobileapp.viewmodels.UserViewModel;
 
@@ -35,11 +37,13 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
 
     private RecentSongAdapter songAdapter_recent;
     private RecentSongAdapter songAdapter_old;
+    private RecentSongAdapter songAdapter_recently_played;
     private RecentSongAdapter songAdapter_suggested;
     private RecentSongAdapter songAdapter_playlist;
 
     private RecyclerView recyclerView_recent;
     private RecyclerView recyclerView_old;
+    private RecyclerView recyclerView_recently_played;
     private  RecyclerView recyclerView_suggested;
     private RecyclerView recyclerView_playlist;
 
@@ -51,13 +55,14 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
     private List<MediaMetadataCompat> mNewLibrary = new ArrayList<>();
     private List<MediaMetadataCompat> mSuggestedLibrary = new ArrayList<>();
     private List<MediaMetadataCompat> mPlaylistLibrary = new ArrayList<>();
+    private List<MediaMetadataCompat> mRecentlyPLibrary = new ArrayList<>();
 
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       return inflater.inflate(R.layout.fragment_home,container,false);
+        return inflater.inflate(R.layout.fragment_home,container,false);
     }
 
     @Override
@@ -69,6 +74,13 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
     }
 
     private void initRecyclerView(View view){
+        recyclerView_recently_played = view.findViewById(R.id.recently_played_songs_recyclerview);
+        songAdapter_recently_played = new RecentSongAdapter(getActivity(), this,0);
+        LinearLayoutManager layoutManager5 = new LinearLayoutManager(getActivity(), HORIZONTAL, false);
+        recyclerView_recently_played.setLayoutManager(layoutManager5);
+        songAdapter_recently_played.setDataList(AccessRoomData.getRecentlyPlayedSongs());
+        recyclerView_recently_played.setAdapter(songAdapter_recently_played);
+
         recyclerView_suggested = view.findViewById(R.id.new_songs_recyclerview);
         songAdapter_suggested = new RecentSongAdapter(getActivity(),this,3);
         LinearLayoutManager layoutManager3 = new LinearLayoutManager(getActivity(),HORIZONTAL,false);
@@ -109,6 +121,7 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
                 addtolibrary(mData.getOld_songs(),2);
                 addtolibrary(mData.getSuggested_songs(),3);
                 addtolibrary(mData.getPlaylist_songs(),4);
+                addtolibrary(AccessRoomData.getRecentlyPlayedSongs(), 0);
                 //
                 songAdapter_recent.setDataList(mData.getRecent_songs());
                 songAdapter_old.setDataList(mData.getOld_songs());
@@ -155,8 +168,20 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
                         .build();
                 mSuggestedLibrary.add(mData);
             }
-        }else{
+        }else if(category == 4){
             mPlaylistLibrary.clear();
+            for(Song song : sg){
+                MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
+                        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE,song.getTitle())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE,song.getArtist())
+                        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON_URI,song.getThumbnailUrl())
+                        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, song.getSong_url())
+                        .build();
+                mPlaylistLibrary.add(mData);
+            }
+        }else{
+            mRecentlyPLibrary.clear();
             for(Song song : sg){
                 MediaMetadataCompat mData = new MediaMetadataCompat.Builder()
                         .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, song.getId())
@@ -196,11 +221,15 @@ public class HomeFragment extends Fragment implements RecentSongAdapter.SongList
             mSelectedMedia = mSuggestedLibrary.get((position));
             mIMainActivity.getMyApplication().setMediaItems(mSuggestedLibrary);
             mSongViewModel.setPlaylist(mSuggestedLibrary);
-        }else{
+        }else if(category == 4){
             mSelectedMedia = mPlaylistLibrary.get((position));
             mIMainActivity.getMyApplication().setMediaItems(mPlaylistLibrary);
             mSongViewModel.setPlaylist(mPlaylistLibrary);
-
+        }
+        else{
+            mSelectedMedia = mRecentlyPLibrary.get((position));
+            mIMainActivity.getMyApplication().setMediaItems(mRecentlyPLibrary);
+            mSongViewModel.setPlaylist(mRecentlyPLibrary);
         }
 
         SharedPreferences sp = this.getActivity().getSharedPreferences("User_Data",MODE_PRIVATE);

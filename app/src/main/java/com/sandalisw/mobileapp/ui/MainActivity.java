@@ -1,5 +1,6 @@
 package com.sandalisw.mobileapp.ui;
 
+import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,12 +23,15 @@ import com.sandalisw.mobileapp.R;
 import com.sandalisw.mobileapp.adapters.TabAdapter;
 import com.sandalisw.mobileapp.client.MediaBrowserHelper;
 import com.sandalisw.mobileapp.client.MediaBrowserHelperCallback;
+import com.sandalisw.mobileapp.room.SongAppDatabase;
 import com.sandalisw.mobileapp.services.MediaService;
 
 import static com.sandalisw.mobileapp.utils.Constants.MEDIA_QUEUE_POSITION;
 
 
 public class MainActivity extends AppCompatActivity implements IMainActivity, MediaBrowserHelperCallback {
+
+    public static SongAppDatabase songAppDatabase;
 
     private static final String TAG = "MainActivity";
 
@@ -48,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements IMainActivity, Me
         Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        songAppDatabase = Room.databaseBuilder(getApplicationContext(),SongAppDatabase.class, "songdb").allowMainThreadQueries().build();
+
 
 
         //onetime signup check

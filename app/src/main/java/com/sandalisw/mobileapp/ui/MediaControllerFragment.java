@@ -2,6 +2,7 @@ package com.sandalisw.mobileapp.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +18,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sandalisw.mobileapp.MediaSeekbar;
 import com.sandalisw.mobileapp.R;
+import com.sandalisw.mobileapp.analytics.Analytics;
+import com.sandalisw.mobileapp.room.SaveData;
 import com.sandalisw.mobileapp.viewmodels.SongViewModel;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class MediaControllerFragment extends Fragment implements View.OnClickListener {
 
@@ -99,6 +104,13 @@ public class MediaControllerFragment extends Fragment implements View.OnClickLis
                 .into(mThumbnail);
         mSongViewModel.setCurrentMedia(mediaItem);
         mSongViewModel.toString().equals("mSongViewModel");
+
+        SharedPreferences sp = this.getActivity().getSharedPreferences("User_Data",MODE_PRIVATE);
+        String userId = sp.getString("userId","0");
+
+        SaveData.saveSongs(mediaItem);
+        Analytics.analytics(mediaItem, userId);
+
     }
 
     @Override

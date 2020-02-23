@@ -29,14 +29,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+            <!--//Recently playes-->
+            <TextView
+                android:id="@+id/recen_pl"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:text="Recently played"
+                android:layout_below="@+id/title_bar"
+                android:textAppearance="@style/subtitle"
+                android:gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recently_played_songs_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_below="@+id/new_pl">
+
+            </android.support.v7.widget.RecyclerView>
 
             <!--//Top recommendations-->
             <TextView
                 android:id="@+id/new_pl"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
-                android:text="Top Recommendations"
-                android:layout_below="@+id/title_bar"
+                android:text="Popular hits"
                 android:textAppearance="@style/subtitle"
                 android:gravity="center_vertical"
                 android:layout_marginStart="16dp"
@@ -79,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
                 android:layout_below="@id/new_songs_recyclerview"
-                android:text="Recently add"
+                android:text="You may also like"
                 android:textAppearance="@style/subtitle"
                 android:gravity="center_vertical"
                 android:layout_marginStart="16dp"
@@ -102,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
                 android:layout_below="@id/recent_songs_recyclerview"
-                android:text="Old hits"
+                android:text="You said you liked"
                 android:textAppearance="@style/subtitle"
                 android:gravity="center_vertical"
                 android:layout_marginStart="16dp"
