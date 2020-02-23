@@ -20,13 +20,68 @@
         android:layout_height="48dp"
         android:layout_below="@id/image_profile"/>
 
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/textViewname">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <!--//My Playlist-->
+            <TextView
+                android:id="@+id/my_playlist"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:text="My playlist"
+                android:textAppearance="@style/subtitle"
+                android:gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/myplaylist_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_below="@+id/my_playlist">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <!--//Top recommendations-->
+            <TextView
+                android:id="@+id/suggestions"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:text="We suggest more"
+                android:textAppearance="@style/subtitle"
+                android:gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/suggestions_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_below="@+id/suggestions">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </ScrollView>
+
 
     <LinearLayout
         android:id="@+id/editprofile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/image_profile"
+        android:layout_below="@+id/scrollview"
         android:paddingTop="10dp"
         android:layout_marginTop="40dp">
 

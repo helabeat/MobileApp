@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sandalisw.mobileapp.R;
@@ -84,6 +85,14 @@ public class PlayerFragment extends Fragment implements PlaylistItemAdapter.Play
         TextView songtitle = view.findViewById(R.id.current_song_playing);
         TextView artisttitle = (TextView)view.findViewById(R.id.current_artist_playing);
         ImageView thumbnail = (ImageView)view.findViewById(R.id.image_thumbnail);
+        ImageView addtoplaylist = (ImageView)view.findViewById(R.id.add_to_playlist);
+
+        addtoplaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"Added to the playlist!",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         songtitle.setText(mdata.getDescription().getTitle());
         artisttitle.setText(mdata.getDescription().getSubtitle());
